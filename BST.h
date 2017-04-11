@@ -262,6 +262,7 @@ void BST<E>::deleteNode(E value)
 			{
 				parent->right = successor;
 			}
+            
 			successor->left = current->left;
 		}
 		
@@ -274,21 +275,23 @@ template<class E>
 TreeNode<E> *BST<E>::getSuccessor(TreeNode<E> *n)
 {
     TreeNode<E> *successorParent = n;
-    TreeNode<E> *successor = n;
+    TreeNode<E> *successor = n; //one right all the way left
     TreeNode<E> *current = n->right;
     while (current != NULL)
     {
         successorParent = successor;
         successor = current;
+        
+        current = current->left;
     }
 
-    if (successor != n->right)
+    if (successor != n->right)//if successor is below the nodes right, so it wasnt the first node under it
     {
-
         successorParent->left = successor->right;
         successor->right = n->right;
     }
     return successor;
+    
 }
 
 template<class E>
