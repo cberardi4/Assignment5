@@ -280,6 +280,7 @@ TreeNode<E> *BST<E>::getSuccessor(TreeNode<E> *n)
     {
         successorParent = successor;
         successor = current;
+        current = current->left;
     }
 
     if (successor != n->right)
