@@ -2,6 +2,8 @@
 #include <string.h>
 #include <iostream>
 
+//testing a commit
+
 using namespace std;
 
 Student::Student(int i, string n, string l, string m, double g, int a)
