@@ -266,7 +266,7 @@ void BST<E>::deleteNode(E value)
 		}
 		
 	}
-	
+
 	--size;
 }
 
