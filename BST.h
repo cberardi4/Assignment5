@@ -20,6 +20,7 @@ public:
 	bool contains(E value);
 	void deleteNode(E value);
 	TreeNode<E>* getRoot();
+	TreeNode<E>* find();
 
 	bool isEmpty();
 	TreeNode<E>* getMin(); //leftmost
@@ -264,12 +265,9 @@ void BST<E>::deleteNode(E value)
             
 			successor->left = current->left;
 		}
-<<<<<<< HEAD
-=======
 		
 	}
 
->>>>>>> origin/master
 	--size;
 }
 
@@ -283,10 +281,7 @@ TreeNode<E> *BST<E>::getSuccessor(TreeNode<E> *n)
     {
         successorParent = successor;
         successor = current;
-<<<<<<< HEAD
-        
-=======
->>>>>>> origin/master
+
         current = current->left;
     }
 
@@ -316,6 +311,38 @@ int BST<E>::getSize()
 	return size;
 }
 
+
+template<class E>
+TreeNode<E>* BST::find(E *object)
+{
+	//start at root check left or right keep searching till found or leaf
+	if (root == NULL)
+	{
+		return NULL;
+	}
+	else
+	{
+		TreeNode<E> *current = root;
+
+		while(current->value != object)
+		{
+			if (value < current->value) //go left
+			{
+				current = current->left;
+			}
+			else //go right
+			{
+				current = current->right;
+			}
+			if (current == NULL)
+			{
+				return NULL;
+			}
+		}
+	}
+	return current;
+
+}
 
 
 #endif

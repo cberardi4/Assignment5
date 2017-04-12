@@ -1,4 +1,6 @@
+
 #include "TreeNode.h"
+#include "Student.h"
 #include "BST.h"
 #include <iostream>
 
@@ -6,27 +8,27 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-	BST<int> *tree = new BST<int>();
+	BST<Student> *tree = new BST<Student>();
+
+	Student *stud = new Student(22222, "Maddy", "Soph", 1.0 , 4444);
 
 	int empty = tree->isEmpty();
-	tree->insert(5);
-	tree->insert(7);
-	tree->insert(4);
-	tree->insert(3);
+	tree->insert(stud);
+	
 
-	TreeNode<int> *n = new TreeNode<int>();
+	TreeNode<Student> *n = new TreeNode<Student>();
 	n = tree->getRoot();
 	tree->printNodes(n);
 
 	
-	tree->deleteNode(4);
-	cout << tree->contains(4) << endl;
+	tree->deleteNode(stud);
+	cout << tree->contains(stud) << endl;
 	n = tree->getRoot();
 	//cout << "n->left in main "<<n->left->value << endl;
 	//cout <<"n->right in main" <<n->right<< endl;
 	tree->printNodes(n);
 	
-
+/*
 	TreeNode<int> *min = new TreeNode<int>();
 	TreeNode<int> *max = new TreeNode<int>();
 	max=tree->getMax();
@@ -35,6 +37,11 @@ int main(int argc, char** argv)
 	cout <<"max: " << max->value << endl;
 	empty = tree->isEmpty();
 	cout << "is empty" << empty << endl;
+
+*/
+
+
+
 
 	return 1;
 }
