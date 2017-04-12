@@ -2,21 +2,18 @@
 #include <iostream>
 
 using namespace std;
-class StudentBST:public StudentBST
+class StudentBST:public BST
 {
 public:
+
 	void printNodes(Student *stud)
 	{
 		if (stud != NULL)
 		{
-			cout << stud->printStudent() << endl;
 			printNodes(stud->left);
+			stud->printStudent();
 			printNodes(stud->right);
 		}
 	}
-
 	
-private:
-
-
-}
+};

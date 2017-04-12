@@ -2,8 +2,6 @@
 #include <string.h>
 #include <iostream>
 
-//testing a commit
-
 using namespace std;
 
 Student::Student(int i, string n, string l, string m, double g, int a)
@@ -61,16 +59,6 @@ void Student::printStudent()
 	cout << "GPA: " << gpa << endl;
 	cout << "Advisor: " << advisor << endl;
 }
-void Student::printAllStudents(TreeNode<Student> *n)
-{
-	if (n != NULL)
-	{
-		printAllStudents(n->left);
-		n->printStudent();
-		printAllStudents(n->right);
-	}
-}
-
 
 
 

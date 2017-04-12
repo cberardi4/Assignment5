@@ -1,4 +1,4 @@
-
+/*
 #include "TreeNode.h"
 #include "BST.h"
 #include "Student.h"
@@ -261,7 +261,6 @@ void checkFiles()
 	//clear
 } 
 */
-
 
 
 

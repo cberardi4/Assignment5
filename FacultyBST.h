@@ -1,10 +1,10 @@
 #include <iostream>
 
 using namespace std;
-class FacultyBST:public StudentBST
+class FacultyBST:public BST
 {
 public:
 private:
 
 
-}
+};

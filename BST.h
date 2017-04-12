@@ -28,7 +28,7 @@ public:
 	int getSize();
 
 	TreeNode<E>* getSuccessor(TreeNode<E>* n); //helper function for delete method
-	void printNodes(TreeNode<E> *n);
+	virtual void printNodes(TreeNode<E> *n);
 
 private:
 	TreeNode<E> *root;
@@ -312,7 +312,7 @@ int BST<E>::getSize()
 
 
 template<class E>
-TreeNode<E>* BST::find(E *value)
+TreeNode<E>* BST<E>::find(E *value)
 {
 	//start at root check left or right keep searching till found or leaf
 	if (root == NULL)

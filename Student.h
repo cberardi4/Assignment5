@@ -19,7 +19,6 @@ public:
 	~Student();
 
 	void printStudent();
-	void printAllStudents();
 
 	//accessor
 	int getId();
