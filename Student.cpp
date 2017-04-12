@@ -66,8 +66,9 @@ void Student::printAllStudents(TreeNode<Student> *n)
 	if (n != NULL)
 	{
 		printAllStudents(n->left);
-		n->printStudent << endl
+		n->printStudent();
 		printAllStudents(n->right);
+	}
 }
 
 

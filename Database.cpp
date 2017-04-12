@@ -13,12 +13,15 @@ using namespace std;
 int response;
 BST<Student> students;
 BST<Teacher> faculty;
+int startingStudentId = 1000;
+int startingTeacherId = 1;
+
 
 //functions
-void displayMenu();
-void checkFiles();
+int displayMenu();
+//void checkFiles();
 void printStudents(TreeNode<Student>* root);
-void printFaculty(TreeNode<Faculty>* root);
+void printFaculty(TreeNode<Teacher>* root);
 void displayStudent();
 void displayFaculty();
 void printFacultyAdvisor();
@@ -34,33 +37,23 @@ void exitProgram();
 
 int main(int argv, char** argc)
 {
-	
-	int startingStudentId = 1000, startingTeacherId=1;
 
-
-
-
-
-	isNew = checkFiles();
-	
 	response = displayMenu();
 
-	if(isNew)
-	{
 
-	}
-
-	TreeNode<E> *root;
+	TreeNode<Student> *stuRoot;
+	TreeNode<Teacher> *teachRoot;
 
 
 	switch(response)
 	{
 		case 1:
-			root = students->getRoot();
-			printStudents(root);
+			stuRoot = students.getRoot();
+			printStudents(stuRoot);
 			break;
 		case 2:
-			printFaculty();
+			teachRoot = faculty.getRoot();
+			printFaculty(teachRoot);
 			break;
 		case 3:
 			displayStudent();
@@ -106,7 +99,7 @@ int main(int argv, char** argc)
 
 void printStudents(TreeNode<Student>* root)
 {
-	students->printAllStudents(root);
+	students.printAllStudents(root);
 }
 
 void printFaculty();
@@ -133,8 +126,8 @@ void addStudent()
 
 	Student *newStud = new Student(startingStudentId++, name, level, major, gpa, advisor);
 
-	students->insert(newStud);
-	faculty->find(advisor);
+	students.insert(newStud);
+	//faculty.find(advisor);
 
 }
 void deleteStudent();
@@ -146,19 +139,14 @@ void addFaculty()
 	cin >> name;
 	cout << "Level: " << endl;
 	cin >> level;
-	cout << "Major: " << endl;
-	cin >> major;
-	cout << "GPA: " << endl;
-	cin >> gpa;
-	cout << "Advisor: " << endl;
-	cin >> advisor;
+	cout << "Department: " << endl;
+	cin >> department;
 
-	Student *newStud = new Student(startingStudentId++, name, level, major, gpa, advisor);
+	Teacher *newTeach = new Teacher(startingTeacherId++, name, level, department);
 
-	students->insert(newStud);
-
-
+	students.insert(newStud);
 }
+
 void deleteFaculty();
 void changeAdvisor();
 void removeAdvisee();
@@ -191,7 +179,7 @@ int displayMenu()
 
 	return response;
 }
-
+/*
 void checkFiles()
 {
 	ifstream readStudent("studentTable.txt");
@@ -272,7 +260,7 @@ void checkFiles()
 
 	//clear
 } 
-
+*/
 
 
 
