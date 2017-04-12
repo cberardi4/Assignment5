@@ -24,6 +24,7 @@ public:
 	bool isEmpty();
 	TreeNode<E>* getMin(); //leftmost
 	TreeNode<E>* getMax(); //rightmost
+	int getSize();
 
 	TreeNode<E>* getSuccessor(TreeNode<E>* n); //helper function for delete method
 	void printNodes(TreeNode<E> *n);
@@ -263,6 +264,12 @@ void BST<E>::deleteNode(E value)
             
 			successor->left = current->left;
 		}
+<<<<<<< HEAD
+=======
+		
+	}
+
+>>>>>>> origin/master
 	--size;
 }
 
@@ -276,7 +283,10 @@ TreeNode<E> *BST<E>::getSuccessor(TreeNode<E> *n)
     {
         successorParent = successor;
         successor = current;
+<<<<<<< HEAD
         
+=======
+>>>>>>> origin/master
         current = current->left;
     }
 
@@ -300,5 +310,12 @@ bool BST<E>::isEmpty()
 {
 	return (root == NULL);
 }
+template<class E>
+int BST<E>::getSize()
+{
+	return size;
+}
+
+
 
 #endif
