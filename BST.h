@@ -24,6 +24,7 @@ public:
 	bool isEmpty();
 	TreeNode<E>* getMin(); //leftmost
 	TreeNode<E>* getMax(); //rightmost
+	int getSize();
 
 	TreeNode<E>* getSuccessor(TreeNode<E>* n); //helper function for delete method
 	void printNodes(TreeNode<E> *n);
@@ -303,5 +304,12 @@ bool BST<E>::isEmpty()
 {
 	return (root == NULL);
 }
+template<class E>
+int BST<E>::getSize()
+{
+	return size;
+}
+
+
 
 #endif

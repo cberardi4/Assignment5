@@ -60,9 +60,17 @@ void Student::printStudent()
 	cout << "Major: " << major << endl;
 	cout << "GPA: " << gpa << endl;
 	cout << "Advisor: " << advisor << endl;
+}/*
+void Student::printAllStudents(TreeNode<Student> *n)
+{
+	if (n != NULL)
+	{
+		printStudent(n->left);
+		cout << n->printStudent << endl;
+		printStudent(n->right);
 }
 
-
+*/
 
 
 

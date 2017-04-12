@@ -1,4 +1,4 @@
-/*#include "TreeNode.h"
+#include "TreeNode.h"
 #include "BST.h"
 #include <iostream>
 
@@ -19,8 +19,8 @@ int main(int argc, char** argv)
 	tree->printNodes(n);
 
 	
-	tree->deleteNode(3);
-	cout << tree->contains(3) << endl;
+	tree->deleteNode(4);
+	cout << tree->contains(4) << endl;
 	n = tree->getRoot();
 	//cout << "n->left in main "<<n->left->value << endl;
 	//cout <<"n->right in main" <<n->right<< endl;
@@ -38,4 +38,3 @@ int main(int argc, char** argv)
 
 	return 1;
 }
-*/
