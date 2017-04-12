@@ -179,11 +179,8 @@ void BST<E>::deleteNode(E value)
 	{
 		parent = current;
 
-		if (current->value == value)
-		{
-
-		}
-		else if (value < current->value) //go left
+		
+        if (value < current->value) //go left
 		{
 			isLeft = true;
 			current = current->left;
@@ -197,6 +194,7 @@ void BST<E>::deleteNode(E value)
 		{
 			cout << "Wasn't in the tree" << endl;
 		}
+    }
 
 		//we found what needs to be deleted
 
@@ -265,9 +263,6 @@ void BST<E>::deleteNode(E value)
             
 			successor->left = current->left;
 		}
-		
-	}
-	
 	--size;
 }
 
