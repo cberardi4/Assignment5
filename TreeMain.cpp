@@ -1,5 +1,7 @@
-
+/*
 #include "TreeNode.h"
+#include "BST.h"
+#include "StudentBST.h"
 #include <iostream>
 
 #ifndef STUDENT_BST
@@ -8,12 +10,12 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include "StudentBST.h"
 
 using namespace std;
 
 int main(int argc, char** argv)
 {
+	*/
 	/*
 	BST<Student> *tree = new BST<Student>();
 
@@ -46,6 +48,7 @@ int main(int argc, char** argv)
 	cout << "is empty" << empty << endl;
 
 */
+/*
 	Student *st1 = new Student(1, "Tina", "Soph","CS", 4.0, 12);
 	Student *st2 = new Student(2, "Jack", "Junior","Math", 3.0, 12);
 	Student *st3 = new Student(3, "Liz", "Freshman","English", 3.4, 12);
@@ -59,7 +62,7 @@ int main(int argc, char** argv)
 	TreeNode<Student> *n = new TreeNode<Student>();
 	n = stuBST->getRoot();
 
-	stuBST->printNodes(st1);
+	stuBST->printNodes(n);
 
 
 
@@ -70,5 +73,4 @@ int main(int argc, char** argv)
 
 #endif
 #endif
-
-
+*/

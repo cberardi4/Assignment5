@@ -314,6 +314,8 @@ int BST<E>::getSize()
 template<class E>
 TreeNode<E>* BST<E>::find(E *value)
 {
+	TreeNode<E> *current = root;
+
 	//start at root check left or right keep searching till found or leaf
 	if (root == NULL)
 	{
@@ -321,9 +323,7 @@ TreeNode<E>* BST<E>::find(E *value)
 	}
 	else
 	{
-		TreeNode<E> *current = root;
-
-		while(current->value != object)
+		while(current->value != value)
 		{
 			if (value < current->value) //go left
 			{

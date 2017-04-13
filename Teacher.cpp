@@ -23,6 +23,14 @@ Teacher::Teacher()
 	advisees = new list<int>();
 }
 
+void Teacher::printTeacher()
+{
+	cout << "ID: " << id << endl;
+	cout << "Name: " << name << endl;
+	cout << "Level: " << level << endl;
+	cout << "Department: " << department << endl;
+}
+
 int Teacher::getId()
 {
 	return id;
