@@ -6,13 +6,13 @@ class StudentBST:public BST
 {
 public:
 
-	void printNodes(Student *stud)
+	void printNodes(Student *rootStudent)
 	{
-		if (stud != NULL)
+		if (rootStudent != NULL)
 		{
-			printNodes(stud->left);
-			stud->printStudent();
-			printNodes(stud->right);
+			printNodes(rootStudent->left);
+			rootStudent->printStudent();
+			printNodes(rootStudent->right);
 		}
 	}
 	
