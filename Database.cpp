@@ -1,25 +1,31 @@
-/*
+
 #include "TreeNode.h"
 #include "BST.h"
-#include "Student.h"
-#include "Teacher.h"
+#include "StudentBST.h"
+#include "FacultyBST.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+
+#ifndef STUDENT_H
+#define STUDENT_H
+
+#ifndef TEACHER_H
+#define TEACHER_H
 
 using namespace std;
 
 //global variables
 int response;
-BST<Student> students;
-BST<Teacher> faculty;
+StudentBST<Student> students;
+FacultyBST<Teacher> faculty;
 int startingStudentId = 1000;
 int startingTeacherId = 1;
 
 
 //functions
 int displayMenu();
-//void checkFiles();
+void checkFiles();
 void printStudents(TreeNode<Student>* root);
 void printFaculty(TreeNode<Teacher>* root);
 void displayStudent();
@@ -102,9 +108,37 @@ void printStudents(TreeNode<Student>* root)
 	students.printAllStudents(root);
 }
 
-void printFaculty();
-void displayStudent();
-void displayFaculty();
+void printFaculty(TreeNode<Student>* root)
+{
+	faculty.printAllFaculty(root);
+}
+void displayStudent()
+{
+	int id;
+
+	TreeNode <Student>* = foundStudent = new <Student>TreeNode();
+
+	cout << "ID number of student you would like to display: " << endl;
+	cin >> id;
+
+	foundStudent = students.find(id);
+
+	foundStudent->value.printStudent();
+
+}
+void displayFaculty()
+{
+	int id;
+
+	TreeNode <Teacher>* foundTeacher = new <Teacher>TreeNode();
+
+	cout << "ID number of faculty member you would like to display: " << endl;
+	cin >> id;
+
+	foundTeacher = faculty.find(id);
+
+	foundTeacher->value.printTeacher();
+}
 void printFacultyAdvisor();
 void printAdvisees();
 void addStudent()
@@ -144,14 +178,18 @@ void addFaculty()
 
 	Teacher *newTeach = new Teacher(startingTeacherId++, name, level, department);
 
-	students.insert(newStud);
+	faculty.insert(newTeach);
 }
 
 void deleteFaculty();
 void changeAdvisor();
 void removeAdvisee();
 void rollback();
-void exitProgram();
+void exitProgram()
+{
+	cout << "Exiting program now." << endl;
+	exit(0);
+}
 int displayMenu()
 {
 	int response;
@@ -261,6 +299,9 @@ void checkFiles()
 	//clear
 } 
 */
+
+#endif
+#endif
 
 
 

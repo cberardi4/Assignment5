@@ -19,6 +19,7 @@ public:
 	~Teacher();
 
 	void addStudent(int idNum);
+	void printTeacher();
 
 	//accessors
 	int getId();

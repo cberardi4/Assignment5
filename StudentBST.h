@@ -1,19 +1,22 @@
 #include "Student.h"
+#include "BST.h"
 #include <iostream>
 
 using namespace std;
-class StudentBST:public BST
+
+template<Student>
+class StudentBST<Student>: public BST<class E>
 {
 public:
-
-	void printNodes(Student *stud)
+	void printNodes(TreeNode<Student> *n)
 	{
-		if (stud != NULL)
+		if (n != NULL)
 		{
-			printNodes(stud->left);
-			stud->printStudent();
-			printNodes(stud->right);
+			printNodes(n->left);
+			n->value.printStudent();
+			printNodes(n->right);
 		}
+
 	}
 	
 };
