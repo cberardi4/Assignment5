@@ -7,7 +7,6 @@ using namespace std;
 class StudentBST: public BST<Student>
 {
 public:
-<<<<<<< HEAD
 
 	void printNodes(Student *rootStudent)
 	{
@@ -16,15 +15,6 @@ public:
 			printNodes(rootStudent->left);
 			rootStudent->printStudent();
 			printNodes(rootStudent->right);
-=======
-	void printNodes(TreeNode<Student> *n)
-	{
-		if (n != NULL)
-		{
-			printNodes(n->left);
-			n->value.printStudent();
-			printNodes(n->right);
->>>>>>> origin/master
 		}
 
 	}

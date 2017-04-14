@@ -1,4 +1,4 @@
-#include <stack>
+/*#include <stack>
 #include "TreeNode.h"
 #include "BST.h"
 #include "StudentBST.h"
@@ -10,26 +10,26 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#ifndef TEACHER_H
-#define TEACHER_H
+#ifndef FACULTY_H
+#define FACUTLY_H
 
 using namespace std;
 
 //global variables
 int response;
-StudentBST students;
-FacultyBST faculty;
+StudentBST *students = new StudentBST();
+FacultyBST *faculty = new FacultyBST();
 int startingStudentId = 1000;
-int startingTeacherId = 1;
-stack<StudentBST> studStack;
-stack<FacultyBST> facStack;
+int startingFacultyId = 1;
+stack<StudentBST> *studStack = new stack<>();
+stack<FacultyBST> *facStack = new stack<>();
 
 
 //functions
 int displayMenu();
 void checkFiles();
 void printStudents(TreeNode<Student>* root);
-void printFaculty(TreeNode<Teacher>* root);
+void printFaculty(TreeNode<Faculty>* root);
 void displayStudent();
 void displayFaculty();
 void printFacultyAdvisor();
@@ -55,7 +55,7 @@ int main(int argv, char** argc)
 
 
 		TreeNode<Student> *stuRoot;
-		TreeNode<Teacher> *teachRoot;
+		TreeNode<Faculty> *teachRoot;
 
 
 		switch(response)
@@ -132,7 +132,7 @@ void printStudents(TreeNode<Student>* stuRoot)
 	students.printNodes(stuRoot);
 }
 
-void printFaculty(TreeNode<Teacher>* teachRoot)
+void printFaculty(TreeNode<Faculty>* teachRoot)
 {
 	faculty.printNodes(teachRoot);
 }
@@ -154,21 +154,38 @@ void displayFaculty()
 {
 	int id;
 
-	TreeNode <Teacher>* foundTeacher = new TreeNode<Teacher>();
+	TreeNode <Faculty>* foundFaculty = new TreeNode<Faculty>();
 
 	cout << "ID number of faculty member you would like to display: " << endl;
 	cin >> id;
 
-	foundTeacher = faculty.find(id);
+	foundFaculty = faculty.find(id);
 
-	foundTeacher->value.printTeacher();
+	foundFaculty->value.printFaculty();
 }
-void printFacultyAdvisor();
-void printAdvisees();
+void printFacultyAdvisor(int studID)
+{
+	//get the student object
+	//get their faculty advisors id
+	//traverse the faculty tree
+	//once found print that faculty member
+
+	//maybe we need a print specific faculty method
+
+}
+void printAdvisees(int facID)
+{
+	//get the faculty object
+	//get the list of advisees (id numbers)
+	//traverse the student tree for each number, print them as they come up
+
+}
 void addStudent()
 {
+	//save the last bst before we change
 	addStudStack();
 
+	//make a new student
 	int advisor;
 	string name, level, major;
 	float gpa; 
@@ -186,6 +203,7 @@ void addStudent()
 
 	Student newStud(startingStudentId++, name, level, major, gpa, advisor);
 
+	//add it to our tree
 	students.insert(newStud);
 
 	//have the advisor id, find it in the database, add the student
@@ -194,12 +212,17 @@ void addStudent()
 }
 void deleteStudent()
 {
+	//save the last bst
 	addStudStack();
+
+	//delete the student
 }
 void addFaculty()
 {
+	//save the last bst
 	addFacStack();
 
+	//make a new faculty
 	string name, level, department;
 
 	cout << "Name: " << endl;
@@ -209,29 +232,45 @@ void addFaculty()
 	cout << "Department: " << endl;
 	cin >> department;
 
-	Teacher newTeach(startingTeacherId++, name, level, department);
+	Faculty newTeach(startingFacultyId++, name, level, department);
 
+	//add them to the bst
 	faculty.insert(newTeach);
 }
 
 void deleteFaculty()
 {
+	//save the bst
 	addFacStack();
+
+	//delete the faculty
 }
 void changeAdvisor()
 {
+	//save the bst
 	addStudStack();
+
+	//get the student
+	//get advisor instance
+	//switch the advisor
 }
 void removeAdvisee()
 {
+	//save the bst
 	addFacStack();
+
+	//get the faculty object
+	//get the list of advisees
+	//find the advisee and delete them
 }
 void rollbackFaculty()
 {
+	//get the last saved bst from stack
 	faculty = facStack.pop();
 }
 void rollbackStudent()
 {
+	//get the last saved bst from stack
 	students = studentStack.pop();
 }
 void exitProgram()
@@ -270,13 +309,15 @@ int displayMenu()
 
 void addStudStack()
 {
+	//add a bst to the stack of studentBST
 	studStack.push(students);
 }
 void addFacStack(FacultyBST bst)
 {
+	//ad a bst to the stack of facultyBST
 	facStack.push(faculty);
 }
-
+*/
 /*
 void checkFiles()
 {
@@ -303,8 +344,8 @@ void checkFiles()
 			string department;
 			getline(readFaculty, department);
 
-			Teacher newTeacher(id, name, level, department);
-			faculty.insert(newTeacher);
+			Faculty newFaculty(id, name, level, department);
+			faculty.insert(newFaculty);
 
 			//getting list of advisees
 			getline(readFaculty, line);
@@ -314,7 +355,7 @@ void checkFiles()
 			{
 				getLine(readFaculty, line);
 				int stud = atoi(line.c_str());
-				faculty.find(newTeacher)->value.addStudent(stud);
+				faculty.find(newFaculty)->value.addStudent(stud);
 			}
 
 			line = "";
@@ -360,8 +401,7 @@ void checkFiles()
 } 
 */
 
-#endif
-#endif
-
+//#endif
+//#endif
 
 

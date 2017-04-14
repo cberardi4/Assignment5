@@ -1,26 +1,28 @@
 #include <iostream>
-#include "Teacher.h"
+#include "Faculty.h"
+#include "TreeNode.h"
+#include "BST.h"
 
 using namespace std;
 
-class FacultyBST:public BST<Teacher>
+class FacultyBST:public BST<Faculty>
 {
 public:
-	void printNodes(TreeNode<Teacher> *n)
+	void printNodes(TreeNode<Faculty> *n)
 	{
 		if (n != NULL)
 		{
 			printNodes(n->left);
-			n->value.printTeacher();
+			n->value.printFaculty();
 			printNodes(n->right);
 		}
 
 	}
 
-	TreeNode<Teacher>* find(int id)
+	TreeNode<Faculty>* find(int id)
 	{
-		TreeNode<Teacher> *root = getRoot();
-		TreeNode<Teacher> *current = getRoot();
+		TreeNode<Faculty> *root = getRoot();
+		TreeNode<Faculty> *current = getRoot();
 		int currentId = current->value.getId();
 
 		//start at root check left or right keep searching till found or leaf

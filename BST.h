@@ -1,15 +1,12 @@
-#ifndef TREENODE_H
-#define TREENODE_H
-//___________________________________
-//
-//DECLARATION
-//___________________________________
+//#ifndef TREENODE_H
+//#define TREENODE_H
+class TreeNode;
 using namespace std;
 #include <iostream>
 
 using namespace std;
 
-template <class E>
+template <typename E>
 class BST
 {
 public:
@@ -20,7 +17,7 @@ public:
 	bool contains(E value);
 	void deleteNode(E value);
 	TreeNode<E>* getRoot();
-	virtual TreeNode<E>* find(E* value);
+	virtual TreeNode<E>* find(E value);
 
 	bool isEmpty();
 	TreeNode<E>* getMin(); //leftmost
@@ -28,32 +25,27 @@ public:
 	int getSize();
 
 	TreeNode<E>* getSuccessor(TreeNode<E>* n); //helper function for delete method
-	virtual void printNodes(TreeNode<E> *n);
+	virtual void printNodes(TreeNode<E>* n);
 
 private:
 	TreeNode<E> *root;
 	int size;
 };
 
-//___________________________________
-//
-//IMPLEMENTATION
-//___________________________________
-
-template <class E>
+template <typename E>
 BST<E>::BST()
 {
 	root = NULL;
 	size = 0;
 }
-template <class E>
+template <typename E>
 BST<E>::~BST()
 {
 	//iterate and delete
 	//linear big o
 }
-template <class E>
-void BST<E>::printNodes(TreeNode<E> *n)
+template <typename E>
+void BST<E>::printNodes(TreeNode<E>* n)
 {
 	if (n != NULL)
 	{
@@ -62,7 +54,7 @@ void BST<E>::printNodes(TreeNode<E> *n)
 		printNodes(n->right);
 	}
 }
-template <class E>
+template <typename E>
 TreeNode<E>* BST<E>::getMax()
 {	
 	TreeNode<E> *current = root;
@@ -77,7 +69,7 @@ TreeNode<E>* BST<E>::getMax()
 
 	return current;
 }
-template <class E>
+template <typename E>
 TreeNode<E>* BST<E>::getMin()
 {	
 	TreeNode<E> *current = root;
@@ -92,7 +84,7 @@ TreeNode<E>* BST<E>::getMin()
 
 	return current;
 }
-template <class E>
+template <typename E>
 void BST<E>::insert(E value)
 {
 	TreeNode<E> *node = new TreeNode<E>(value);
@@ -136,7 +128,7 @@ void BST<E>::insert(E value)
 		}
 	}
 }
-template <class E>
+template <typename E>
 bool BST<E>::contains(E value)
 {
 	if (root == NULL)
@@ -165,7 +157,7 @@ bool BST<E>::contains(E value)
 	}
 	return true;
 }
-template <class E>
+template <typename E>
 void BST<E>::deleteNode(E value)
 {
 	if (root==NULL) //empty tree
@@ -268,8 +260,8 @@ void BST<E>::deleteNode(E value)
 }
 
 
-template<class E>
-TreeNode<E> *BST<E>::getSuccessor(TreeNode<E> *n)
+template<typename E>
+TreeNode<E>* BST<E>::getSuccessor(TreeNode<E>* n)
 {
     TreeNode<E> *successorParent = n;
     TreeNode<E> *successor = n; //one right all the way left
@@ -291,25 +283,25 @@ TreeNode<E> *BST<E>::getSuccessor(TreeNode<E> *n)
     
 }
 
-template<class E>
+template<typename E>
 TreeNode<E>* BST<E>::getRoot()
 {
 	return root;
 }
 
-template<class E>
+template<typename E>
 bool BST<E>::isEmpty()
 {
 	return (root == NULL);
 }
-template<class E>
+template<typename E>
 int BST<E>::getSize()
 {
 	return size;
 }
 
 
-template<class E>
+template<typename E>
 TreeNode<E>* BST<E>::find(E *value)
 {
 	TreeNode<E> *current = root;
@@ -340,5 +332,5 @@ TreeNode<E>* BST<E>::find(E *value)
 	return current;
 
 }
-#endif
+//#endif
 
