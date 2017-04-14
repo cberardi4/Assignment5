@@ -1,4 +1,4 @@
-
+#include <stack>
 #include "TreeNode.h"
 #include "BST.h"
 #include "StudentBST.h"
@@ -17,10 +17,12 @@ using namespace std;
 
 //global variables
 int response;
-StudentBST<Student> students;
-FacultyBST<Teacher> faculty;
+StudentBST students;
+FacultyBST faculty;
 int startingStudentId = 1000;
 int startingTeacherId = 1;
+stack<StudentBST> studStack;
+stack<FacultyBST> facStack;
 
 
 //functions
@@ -38,85 +40,107 @@ void addFaculty();
 void deleteFaculty();
 void changeAdvisor();
 void removeAdvisee();
-void rollback();
+void rollbackStudent();
+void rollbackFaculty();
 void exitProgram();
+void addStudStack();
+void addFacStack();
+
 
 int main(int argv, char** argc)
 {
-
-	response = displayMenu();
-
-
-	TreeNode<Student> *stuRoot;
-	TreeNode<Teacher> *teachRoot;
-
-
-	switch(response)
+	while(true)
 	{
-		case 1:
-			stuRoot = students.getRoot();
-			printStudents(stuRoot);
-			break;
-		case 2:
-			teachRoot = faculty.getRoot();
-			printFaculty(teachRoot);
-			break;
-		case 3:
-			displayStudent();
-			break;
-		case 4:
-			displayFaculty();
-			break;
-		case 5:
-			printFacultyAdvisor();
-			break;
-		case 6:
-			printAdvisees();
-			break;
-		case 7:
-			addStudent();
-			break;
-		case 8:
-			deleteStudent();
-			break;
-		case 9:
-			addFaculty();
-			break;
-		case 10:
-			deleteFaculty();
-			break;
-		case 11:
-			changeAdvisor();
-			break;
-		case 12:
-			removeAdvisee();
-			break;
-		case 13:
-			rollback();
-			break;
-		case 14:
-			exitProgram();
-			break;
-		default:
-			cout <<"Not a valid option." << endl;
+		response = displayMenu();
+
+
+		TreeNode<Student> *stuRoot;
+		TreeNode<Teacher> *teachRoot;
+
+
+		switch(response)
+		{
+			case 1:
+				stuRoot = students.getRoot();
+				printStudents(stuRoot);
+				break;
+			case 2:
+				teachRoot = faculty.getRoot();
+				printFaculty(teachRoot);
+				break;
+			case 3:
+				displayStudent();
+				break;
+			case 4:
+				displayFaculty();
+				break;
+			case 5:
+				printFacultyAdvisor();
+				break;
+			case 6:
+				printAdvisees();
+				break;
+			case 7:
+				addStudent();
+				break;
+			case 8:
+				deleteStudent();
+				break;
+			case 9:
+				addFaculty();
+				break;
+			case 10:
+				deleteFaculty();
+				break;
+			case 11:
+				changeAdvisor();
+				break;
+			case 12:
+				removeAdvisee();
+				break;
+			case 13:
+				char r;
+				cout << "Would you like to rollback student(s) or faculty(f)" << endl;
+				cin >> r;
+				while (true)
+				{
+					if (r == 'f')
+					{
+						rollbackFaculty();
+						break;
+					}
+					else if (r == 's')
+					{
+						rollbackStudent();
+						break;
+					}
+					else 
+						cout << "Not an option. Try again." << endl;
+				}
+				break;
+			case 14:
+				exitProgram();
+				break;
+			default:
+				cout <<"Not a valid option." << endl;
+		}
 	}
-
 }
 
-void printStudents(TreeNode<Student>* root)
+void printStudents(TreeNode<Student>* stuRoot)
 {
-	students.printAllStudents(root);
+	students.printNodes(stuRoot);
 }
 
-void printFaculty(TreeNode<Student>* root)
+void printFaculty(TreeNode<Teacher>* teachRoot)
 {
-	faculty.printAllFaculty(root);
+	faculty.printNodes(teachRoot);
 }
 void displayStudent()
 {
 	int id;
 
-	TreeNode <Student>* = foundStudent = new <Student>TreeNode();
+	TreeNode <Student>* foundStudent = new TreeNode<Student>();
 
 	cout << "ID number of student you would like to display: " << endl;
 	cin >> id;
@@ -130,7 +154,7 @@ void displayFaculty()
 {
 	int id;
 
-	TreeNode <Teacher>* foundTeacher = new <Teacher>TreeNode();
+	TreeNode <Teacher>* foundTeacher = new TreeNode<Teacher>();
 
 	cout << "ID number of faculty member you would like to display: " << endl;
 	cin >> id;
@@ -143,6 +167,8 @@ void printFacultyAdvisor();
 void printAdvisees();
 void addStudent()
 {
+	addStudStack();
+
 	int advisor;
 	string name, level, major;
 	float gpa; 
@@ -158,15 +184,22 @@ void addStudent()
 	cout << "Advisor: " << endl;
 	cin >> advisor;
 
-	Student *newStud = new Student(startingStudentId++, name, level, major, gpa, advisor);
+	Student newStud(startingStudentId++, name, level, major, gpa, advisor);
 
 	students.insert(newStud);
+
+	//have the advisor id, find it in the database, add the student
 	//faculty.find(advisor);
 
 }
-void deleteStudent();
+void deleteStudent()
+{
+	addStudStack();
+}
 void addFaculty()
 {
+	addFacStack();
+
 	string name, level, department;
 
 	cout << "Name: " << endl;
@@ -176,15 +209,31 @@ void addFaculty()
 	cout << "Department: " << endl;
 	cin >> department;
 
-	Teacher *newTeach = new Teacher(startingTeacherId++, name, level, department);
+	Teacher newTeach(startingTeacherId++, name, level, department);
 
 	faculty.insert(newTeach);
 }
 
-void deleteFaculty();
-void changeAdvisor();
-void removeAdvisee();
-void rollback();
+void deleteFaculty()
+{
+	addFacStack();
+}
+void changeAdvisor()
+{
+	addStudStack();
+}
+void removeAdvisee()
+{
+	addFacStack();
+}
+void rollbackFaculty()
+{
+	faculty = facStack.pop();
+}
+void rollbackStudent()
+{
+	students = studentStack.pop();
+}
 void exitProgram()
 {
 	cout << "Exiting program now." << endl;
@@ -213,10 +262,21 @@ int displayMenu()
 	cout <<"13. Rollback" << endl;
 	cout <<"14. Exit" << endl;
 
-	cin >> response >> endl;
+	cin >> response;
+	cout << " " << endl;
 
 	return response;
 }
+
+void addStudStack()
+{
+	studStack.push(students);
+}
+void addFacStack(FacultyBST bst)
+{
+	facStack.push(faculty);
+}
+
 /*
 void checkFiles()
 {

@@ -27,4 +27,9 @@ public:
 	string getLevel();
 	string getDepartment();
 	list<int>* getAdvisees();
+
+	//mutators
+	void setName(string newName);
+	void setLevel(string newLevel);
+	void setDepartment(string newDepartment);
 };

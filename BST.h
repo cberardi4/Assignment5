@@ -16,11 +16,11 @@ public:
 	BST();
 	~BST();
 
-	void insert(E value);
+	virtual void insert(E value);
 	bool contains(E value);
 	void deleteNode(E value);
 	TreeNode<E>* getRoot();
-	TreeNode<E>* find(E* value);
+	virtual TreeNode<E>* find(E* value);
 
 	bool isEmpty();
 	TreeNode<E>* getMin(); //leftmost
@@ -57,10 +57,8 @@ void BST<E>::printNodes(TreeNode<E> *n)
 {
 	if (n != NULL)
 	{
-		//cout <<"left"<< n->value << endl;
 		printNodes(n->left);
 		cout << n->value << endl;
-		//cout <<"right" << n->value << endl;
 		printNodes(n->right);
 	}
 }

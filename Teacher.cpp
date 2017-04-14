@@ -55,9 +55,18 @@ void Teacher::addStudent(int id)
 {
 	advisees->push_back(id);
 }
-
-
-
+void Teacher::setName(string newName)
+{
+	name = newName;
+}
+void Teacher::setLevel(string newLevel)
+{
+	level = newLevel;
+}
+void Teacher::setDepartment(string newDepartment)
+{
+	department = newDepartment;
+}
 
 
 

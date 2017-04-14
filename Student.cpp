@@ -59,8 +59,22 @@ void Student::printStudent()
 	cout << "GPA: " << gpa << endl;
 	cout << "Advisor: " << advisor << endl;
 }
-
-
+void Student::setName(string newName)
+{
+	name = newName;
+}
+void Student::setLevel(string newLevel)
+{
+	level = newLevel;
+}
+void Student::setMajor(string newMajor)
+{
+	major = newMajor;
+}
+void Student::setGpa(float newGpa)
+{
+	gpa = newGpa;
+}
 
 
 

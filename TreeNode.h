@@ -11,6 +11,8 @@ public:
 
 	virtual ~TreeNode();
 
+	void setValue(E *newValue);
+
 	E value;
 
 	TreeNode<E> *left;
@@ -37,4 +39,10 @@ TreeNode<E>::~TreeNode()
 {
 	left = NULL;
 	right = NULL;
+}
+
+template<class E>
+void TreeNode<E>::setValue(E *newValue)
+{
+	value = newValue;
 }
