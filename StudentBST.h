@@ -4,8 +4,7 @@
 
 using namespace std;
 
-template<Student>
-class StudentBST<Student>: public BST<class E>
+class StudentBST: public BST<Student>
 {
 public:
 <<<<<<< HEAD
@@ -28,6 +27,39 @@ public:
 >>>>>>> origin/master
 		}
 
+	}
+
+	TreeNode<Student>* find(int id)
+	{
+		TreeNode<Student> *root = getRoot();
+		TreeNode<Student> *current = root;
+		int currentId = current->value.getId();
+
+		//start at root check left or right keep searching till found or leaf
+		if (current == NULL)
+		{
+			return NULL;
+		}
+		else
+		{
+			while(currentId != id)
+			{
+				if (id < currentId) //go left
+				{
+					current = current->left;
+				}
+				else //go right
+				{
+					current = current->right;
+				}
+				if (current == NULL)
+				{
+					return NULL;
+				}
+			}
+			
+		}
+		return current;
 	}
 	
 };
