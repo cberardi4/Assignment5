@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string.h>
 #include <list>
-#include "Teacher.h"
+#include "Faculty.h"
 
 using namespace std;
 
-Teacher::Teacher(int i, string n, string l, string d)
+Faculty::Faculty(int i, string n, string l, string d)
 {
 	id = i;
 	name = n;
@@ -14,7 +14,7 @@ Teacher::Teacher(int i, string n, string l, string d)
 	advisees = new list<int>();
 }
 
-Teacher::Teacher()
+Faculty::Faculty()
 {
 	id = 0;
 	name = "";
@@ -23,7 +23,7 @@ Teacher::Teacher()
 	advisees = new list<int>();
 }
 
-void Teacher::printTeacher()
+void Faculty::printFaculty()
 {
 	cout << "ID: " << id << endl;
 	cout << "Name: " << name << endl;
@@ -31,39 +31,39 @@ void Teacher::printTeacher()
 	cout << "Department: " << department << endl;
 }
 
-int Teacher::getId()
+int Faculty::getId()
 {
 	return id;
 }
-string Teacher::getName()
+string Faculty::getName()
 {
 	return name;
 }
-string Teacher::getLevel()
+string Faculty::getLevel()
 {
 	return level;
 }
-string Teacher::getDepartment()
+string Faculty::getDepartment()
 {
 	return department;
 }
-list<int>* Teacher::getAdvisees()
+list<int>* Faculty::getAdvisees()
 {
 	return advisees;
 }
-void Teacher::addStudent(int id)
+void Faculty::addStudent(int id)
 {
 	advisees->push_back(id);
 }
-void Teacher::setName(string newName)
+void Faculty::setName(string newName)
 {
 	name = newName;
 }
-void Teacher::setLevel(string newLevel)
+void Faculty::setLevel(string newLevel)
 {
 	level = newLevel;
 }
-void Teacher::setDepartment(string newDepartment)
+void Faculty::setDepartment(string newDepartment)
 {
 	department = newDepartment;
 }

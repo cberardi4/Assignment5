@@ -7,13 +7,14 @@ using namespace std;
 class StudentBST: public BST<Student>
 {
 public:
-	void printNodes(TreeNode<Student> *n)
+
+	void printNodes(Student *rootStudent)
 	{
-		if (n != NULL)
+		if (rootStudent != NULL)
 		{
-			printNodes(n->left);
-			n->value.printStudent();
-			printNodes(n->right);
+			printNodes(rootStudent->left);
+			rootStudent->printStudent();
+			printNodes(rootStudent->right);
 		}
 
 	}
