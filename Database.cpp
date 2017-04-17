@@ -17,8 +17,8 @@ using namespace std;
 
 //global variables
 int response;
-StudentBST students;
-FacultyBST faculty;
+StudentBST* students;
+FacultyBST* faculty;
 int startingStudentId = 1000;
 int startingTeacherId = 1;
 stack<StudentBST> studStack;
@@ -49,9 +49,12 @@ void addFacStack();
 
 int main(int argv, char** argc)
 {
+
 	while(true)
 	{
 		response = displayMenu();
+
+
 
 
 		TreeNode<Student> *stuRoot;

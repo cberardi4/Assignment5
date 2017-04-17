@@ -26,6 +26,7 @@ public:
 	TreeNode<E>* getMin(); //leftmost
 	TreeNode<E>* getMax(); //rightmost
 	int getSize();
+	void setBST(BST<E> newBST);
 
 	TreeNode<E>* getSuccessor(TreeNode<E>* n); //helper function for delete method
 	virtual void printNodes(TreeNode<E> *n);
@@ -340,5 +341,12 @@ TreeNode<E>* BST<E>::find(E *value)
 	return current;
 
 }
+
+template<class E>
+void BST<E>::setBST(BST<E> newBST)
+{
+
+}
+
 #endif
 
