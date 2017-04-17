@@ -13,11 +13,11 @@ public:
 	BST();
 	~BST();
 
-	virtual void insert(E value);
+	virtual void insert(E *value);
 	bool contains(E value);
 	void deleteNode(E value);
 	TreeNode<E>* getRoot();
-	virtual TreeNode<E>* find(E value);
+	virtual TreeNode<E>* find(E *v);
 
 	bool isEmpty();
 	TreeNode<E>* getMin(); //leftmost
@@ -48,12 +48,7 @@ BST<E>::~BST()
 template <typename E>
 void BST<E>::printNodes(TreeNode<E>* n)
 {
-	if (n != NULL)
-	{
-		printNodes(n->left);
-		cout << n->value << endl;
-		printNodes(n->right);
-	}
+	
 }
 template <typename E>
 TreeNode<E>* BST<E>::getMax()
@@ -86,7 +81,7 @@ TreeNode<E>* BST<E>::getMin()
 	return current;
 }
 template <typename E>
-void BST<E>::insert(E value)
+void BST<E>::insert(E *value)
 {
 	TreeNode<E> *node = new TreeNode<E>(value);
 
@@ -105,7 +100,7 @@ void BST<E>::insert(E value)
 			parent = current;
 
 			//go left
-			if (value < current->value)
+			if (value->getId() > current->value->getId())
 			{
 				current = current->left;
 				if (current == NULL) //found our position
@@ -303,20 +298,20 @@ int BST<E>::getSize()
 
 
 template<typename E>
-TreeNode<E>* BST<E>::find(E value)
+TreeNode<E>* BST<E>::find(E *v)
 {
 	TreeNode<E> *current = root;
 
 	//start at root check left or right keep searching till found or leaf
-	if (root == NULL)
+	if (current == NULL)
 	{
 		return NULL;
 	}
 	else
 	{
-		while(current->value != value)
+		while(current->value->getId() != v->getId())
 		{
-			if (value < current->value) //go left
+			if (v->getId() < current->value->getId()) //go left
 			{
 				current = current->left;
 			}
@@ -328,7 +323,7 @@ TreeNode<E>* BST<E>::find(E value)
 			{
 				return NULL;
 			}
-		}
+		}//found the node
 	}
 	return current;
 

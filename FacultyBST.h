@@ -10,11 +10,11 @@ class FacultyBST:public BST<Faculty>
 public:
 	void printNodes(TreeNode<Faculty> *n)
 	{
-		Faculty fac = n->value;
+		Faculty *fac = n->value;
 		if (n != NULL)
 		{
 			printNodes(n->left);
-			fac.printFaculty();
+			fac->printFaculty();
 			printNodes(n->right);
 		}
 
@@ -24,7 +24,7 @@ public:
 	{
 		TreeNode<Faculty> *root = getRoot();
 		TreeNode<Faculty> *current = getRoot();
-		int currentId = current->value.getId();
+		int currentId = current->value->getId();
 
 		//start at root check left or right keep searching till found or leaf
 		if (current == NULL)
@@ -35,13 +35,13 @@ public:
 		{
 			while(currentId != id)
 			{
-				if (id < currentId) //go left
-				{
-					current = current->left;
-				}
-				else //go right
+				if (id < currentId) //go right
 				{
 					current = current->right;
+				}
+				else //go left
+				{
+					current = current->left;
 				}
 				if (current == NULL)
 				{
@@ -52,6 +52,4 @@ public:
 	return current;
 
 	}
-
-
 };

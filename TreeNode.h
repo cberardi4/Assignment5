@@ -7,13 +7,13 @@ class TreeNode
 {
 public:
 	TreeNode();
-	TreeNode(E value);
+	TreeNode(E *value);
 
 	virtual ~TreeNode();
 
 	void setValue(E *newValue);
 
-	E value;
+	E *value;
 
 	TreeNode<E> *left;
 	TreeNode<E> *right;
@@ -27,7 +27,7 @@ TreeNode<E>::TreeNode()
 }
 
 template<class E>
-TreeNode<E>::TreeNode(E v)
+TreeNode<E>::TreeNode(E *v)
 {
 	left = NULL;
 	right = NULL;
