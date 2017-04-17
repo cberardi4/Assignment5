@@ -18,8 +18,13 @@ int main(int argc, char** argv)
 	StudentBST<Student> *studBST = new StudentBST<Student>();
 	FacultyBST<Faculty> *facBST = new FacultyBST<Faculty>();
 
-	studBST->printNodes(st);
-	facBST->printNodes(fac);
+
+	studBST->insert(st);
+	facBST->insert(fac);
+
+
+	studBST->printNodes(studBST->getRoot());
+	facBST->printNodes(facBST->getRoot());
 
 
 	return 0;

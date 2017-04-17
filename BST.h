@@ -1,6 +1,6 @@
-//#ifndef TREENODE_H
-//#define TREENODE_H
-class TreeNode;
+#ifndef TREENODE_H
+#define TREENODE_H
+
 using namespace std;
 #include <iostream>
 
@@ -303,7 +303,7 @@ int BST<E>::getSize()
 
 
 template<typename E>
-TreeNode<E>* BST<E>::find(E *value)
+TreeNode<E>* BST<E>::find(E value)
 {
 	TreeNode<E> *current = root;
 
@@ -333,7 +333,7 @@ TreeNode<E>* BST<E>::find(E *value)
 	return current;
 
 }
-<<<<<<< HEAD
+
 
 template<class E>
 void BST<E>::setBST(BST<E> newBST)
@@ -342,7 +342,5 @@ void BST<E>::setBST(BST<E> newBST)
 }
 
 #endif
-=======
-//#endif
->>>>>>> origin/master
+
 

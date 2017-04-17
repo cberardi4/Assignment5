@@ -1,6 +1,7 @@
 #include "Student.h"
 #include "BST.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -8,16 +9,18 @@ class StudentBST: public BST<Student>
 {
 public:
 
-	void printNodes(Student *rootStudent)
+	void printNodes(TreeNode<Student> *n)
 	{
-		if (rootStudent != NULL)
+		Student stud = n->value;
+		if (n != NULL)
 		{
-			printNodes(rootStudent->left);
-			rootStudent->printStudent();
-			printNodes(rootStudent->right);
+			printNodes(n->left);
+			stud.printStudent();
+			printNodes(n->right);
 		}
 
 	}
+
 
 	TreeNode<Student>* find(int id)
 	{

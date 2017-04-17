@@ -10,10 +10,11 @@ class FacultyBST:public BST<Faculty>
 public:
 	void printNodes(TreeNode<Faculty> *n)
 	{
+		Faculty fac = n->value;
 		if (n != NULL)
 		{
 			printNodes(n->left);
-			n->value.printFaculty();
+			fac.printFaculty();
 			printNodes(n->right);
 		}
 
