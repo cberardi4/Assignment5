@@ -1,6 +1,7 @@
+#include <iostream>
+
 #include "Student.h"
 #include "BST.h"
-#include <iostream>
 #include <string>
 
 using namespace std;
@@ -10,12 +11,13 @@ class StudentBST: public BST<Student>
 public:
 	void printNodes(TreeNode<Student> *n)
 	{
-		Student *stud = n->value;
-		if (n != NULL)
+		if (n == NULL)
+			cout << " " << endl;
+		else if (n != NULL)
 		{
-			printNodes(n->left);
-			stud->printStudent();
 			printNodes(n->right);
+			n->value->printStudent();
+			printNodes(n->left);
 		}
 
 	}
@@ -23,7 +25,7 @@ public:
 	{
 		TreeNode<Student> *root = getRoot();
 		TreeNode<Student> *current = root;
-		int currentId = current->value->getId();
+		int currentId;
 
 		//start at root check left or right keep searching till found or leaf
 		if (current == NULL)
@@ -32,19 +34,23 @@ public:
 		}
 		else
 		{
+
 			while(currentId != id)
 			{
+				currentId = current->value->getId();
 				if (id < currentId) //go left
 				{
 					current = current->left;
 				}
-				else //go right
+				else if (id > currentId)//go right
 				{
+					
 					current = current->right;
+					
 				}
 				if (current == NULL)
 				{
-					return NULL;
+					break;
 				}
 			}
 			

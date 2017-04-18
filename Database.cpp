@@ -1,33 +1,35 @@
-/*#include <stack>
-#include "TreeNode.h"
-#include "BST.h"
-#include "StudentBST.h"
-#include "FacultyBST.h"
-#include <iostream>
-#include <fstream>
-#include <string>
 
 #ifndef STUDENT_H
 #define STUDENT_H
-
 #ifndef FACULTY_H
-#define FACUTLY_H
+#define FACULTY_H
+#ifndef TREENODE_H
+#define TREENODE_H
+
+#include "BST.h"
+#include "FacultyBST.h"
+#include "StudentBST.h"
+
+#include <fstream>
+#include <string>
+#include <stack>
+
+#include <iostream>
+using namespace std;
 
 using namespace std;
 
 //global variables
 int response;
-<<<<<<< HEAD
-StudentBST* students;
-FacultyBST* faculty;
-=======
+
 StudentBST *students = new StudentBST();
 FacultyBST *faculty = new FacultyBST();
->>>>>>> origin/master
+
 int startingStudentId = 1000;
 int startingFacultyId = 1;
-stack<StudentBST> *studStack = new stack<>();
-stack<FacultyBST> *facStack = new stack<>();
+
+//stack<StudentBST> *studStack = new stack<>();
+//stack<FacultyBST> *facStack = new stack<>();
 
 
 //functions
@@ -54,13 +56,11 @@ void addFacStack();
 
 int main(int argv, char** argc)
 {
-
+	//keep looping untill they quit
 	while(true)
 	{
+		//what to do
 		response = displayMenu();
-
-
-
 
 		TreeNode<Student> *stuRoot;
 		TreeNode<Faculty> *teachRoot;
@@ -69,11 +69,11 @@ int main(int argv, char** argc)
 		switch(response)
 		{
 			case 1:
-				stuRoot = students.getRoot();
+				stuRoot = students->getRoot();
 				printStudents(stuRoot);
 				break;
 			case 2:
-				teachRoot = faculty.getRoot();
+				teachRoot = faculty->getRoot();
 				printFaculty(teachRoot);
 				break;
 			case 3:
@@ -134,158 +134,6 @@ int main(int argv, char** argc)
 		}
 	}
 }
-
-void printStudents(TreeNode<Student>* stuRoot)
-{
-	students.printNodes(stuRoot);
-}
-
-void printFaculty(TreeNode<Faculty>* teachRoot)
-{
-	faculty.printNodes(teachRoot);
-}
-void displayStudent()
-{
-	int id;
-
-	TreeNode <Student>* foundStudent = new TreeNode<Student>();
-
-	cout << "ID number of student you would like to display: " << endl;
-	cin >> id;
-
-	foundStudent = students.find(id);
-
-	foundStudent->value.printStudent();
-
-}
-void displayFaculty()
-{
-	int id;
-
-	TreeNode <Faculty>* foundFaculty = new TreeNode<Faculty>();
-
-	cout << "ID number of faculty member you would like to display: " << endl;
-	cin >> id;
-
-	foundFaculty = faculty.find(id);
-
-	foundFaculty->value.printFaculty();
-}
-void printFacultyAdvisor(int studID)
-{
-	//get the student object
-	//get their faculty advisors id
-	//traverse the faculty tree
-	//once found print that faculty member
-
-	//maybe we need a print specific faculty method
-
-}
-void printAdvisees(int facID)
-{
-	//get the faculty object
-	//get the list of advisees (id numbers)
-	//traverse the student tree for each number, print them as they come up
-
-}
-void addStudent()
-{
-	//save the last bst before we change
-	addStudStack();
-
-	//make a new student
-	int advisor;
-	string name, level, major;
-	float gpa; 
-
-	cout << "Name: " << endl;
-	cin >> name;
-	cout << "Level: " << endl;
-	cin >> level;
-	cout << "Major: " << endl;
-	cin >> major;
-	cout << "GPA: " << endl;
-	cin >> gpa;
-	cout << "Advisor: " << endl;
-	cin >> advisor;
-
-	Student newStud(startingStudentId++, name, level, major, gpa, advisor);
-
-	//add it to our tree
-	students.insert(newStud);
-
-	//have the advisor id, find it in the database, add the student
-	//faculty.find(advisor);
-
-}
-void deleteStudent()
-{
-	//save the last bst
-	addStudStack();
-
-	//delete the student
-}
-void addFaculty()
-{
-	//save the last bst
-	addFacStack();
-
-	//make a new faculty
-	string name, level, department;
-
-	cout << "Name: " << endl;
-	cin >> name;
-	cout << "Level: " << endl;
-	cin >> level;
-	cout << "Department: " << endl;
-	cin >> department;
-
-	Faculty newTeach(startingFacultyId++, name, level, department);
-
-	//add them to the bst
-	faculty.insert(newTeach);
-}
-
-void deleteFaculty()
-{
-	//save the bst
-	addFacStack();
-
-	//delete the faculty
-}
-void changeAdvisor()
-{
-	//save the bst
-	addStudStack();
-
-	//get the student
-	//get advisor instance
-	//switch the advisor
-}
-void removeAdvisee()
-{
-	//save the bst
-	addFacStack();
-
-	//get the faculty object
-	//get the list of advisees
-	//find the advisee and delete them
-}
-void rollbackFaculty()
-{
-	//get the last saved bst from stack
-	faculty = facStack.pop();
-}
-void rollbackStudent()
-{
-	//get the last saved bst from stack
-	students = studentStack.pop();
-}
-void exitProgram()
-{
-	cout << "Exiting program now." << endl;
-	exit(0);
-}
 int displayMenu()
 {
 	int response;
@@ -315,17 +163,175 @@ int displayMenu()
 	return response;
 }
 
+void printStudents(TreeNode<Student>* stuRoot)
+{
+	students->printNodes(stuRoot);
+}
+
+void printFaculty(TreeNode<Faculty>* teachRoot)
+{
+	faculty->printNodes(teachRoot);
+}
+void displayStudent()
+{
+	int id;
+
+	TreeNode<Student>* foundStudent = new TreeNode<Student>();
+
+	cout << "ID number of Student you would like to display: " << endl;
+	cin >> id;
+
+	foundStudent = students->find(id);
+
+	foundStudent->value->printStudent();
+
+}
+void displayFaculty()
+{
+	int id;
+
+	TreeNode <Faculty>* foundFaculty = new TreeNode<Faculty>();
+
+	cout << "ID number of Faculty member you would like to display: " << endl;
+	cin >> id;
+
+	foundFaculty = faculty->find(id);
+
+	foundFaculty->value->printFaculty();
+}
+void printFacultyAdvisor(int studID)
+{
+	//get the student object
+	TreeNode<Student>* foundStudent = new TreeNode<Student>();
+	foundStudent = students->find(studID);
+	//get their faculty advisors id
+	int facId = (foundStudent->value)->getAdvisor();
+	//traverse the faculty tree
+	TreeNode<Faculty>* foundFaculty = new TreeNode<Faculty>();
+	foundFaculty = faculty->find(facId);
+	//once found print that faculty member
+	(foundFaculty->value)->printFaculty();
+	
+
+}
+void printAdvisees(int facID)
+{
+	//get the faculty object
+	//get the list of advisees (id numbers)
+	//traverse the student tree for each number, print them as they come up
+
+}
+void addStudent()
+{
+	//save the last bst before we change
+	//addStudStack();
+
+	//make a new student
+	int advisor;
+	string name, level, major;
+	float gpa; 
+
+	cout << "Name: " << endl;
+	cin >> name;
+	cout << "Level: " << endl;
+	cin >> level;
+	cout << "Major: " << endl;
+	cin >> major;
+	cout << "GPA: " << endl;
+	cin >> gpa;
+	cout << "Advisor: " << endl;
+	cin >> advisor;
+
+	Student *newStud = new Student(startingStudentId++, name, level, major, gpa, advisor);
+
+	//add it to our tree
+	students->insert(newStud);
+
+	//have the advisor id, find it in the database, add the student
+	//faculty.find(advisor);
+
+}
+void deleteStudent()
+{
+	//save the last bst
+	//addStudStack();
+
+	//delete the student
+}
+void addFaculty()
+{
+	//save the last bst
+	//addFacStack();
+
+	//make a new faculty
+	string name, level, department;
+
+	cout << "Name: " << endl;
+	cin >> name;
+	cout << "Level: " << endl;
+	cin >> level;
+	cout << "Department: " << endl;
+	cin >> department;
+
+	Faculty *newTeach = new Faculty(startingFacultyId++, name, level, department);
+
+	//add them to the bst
+	faculty->insert(newTeach);
+}
+
+void deleteFaculty()
+{
+	//save the bst
+	//addFacStack();
+
+	//delete the faculty
+}
+void changeAdvisor()
+{
+	//save the bst
+	//addStudStack();
+
+	//get the student
+	//get advisor instance
+	//switch the advisor
+}
+void removeAdvisee()
+{
+	//save the bst
+	//addFacStack();
+
+	//get the faculty object
+	//get the list of advisees
+	//find the advisee and delete them
+}
+void rollbackFaculty()
+{
+	//get the last saved bst from stack
+	//faculty = facStack->pop();
+}
+void rollbackStudent()
+{
+	//get the last saved bst from stack
+	//students = studentStack->pop();
+}
+void exitProgram()
+{
+	cout << "Exiting program now." << endl;
+	exit(0);
+}
+
+
 void addStudStack()
 {
 	//add a bst to the stack of studentBST
-	studStack.push(students);
+	//studStack->push(students);
 }
 void addFacStack(FacultyBST bst)
 {
 	//ad a bst to the stack of facultyBST
-	facStack.push(faculty);
+	//facStack->push(faculty);
 }
-*/
+
 /*
 void checkFiles()
 {
@@ -409,7 +415,7 @@ void checkFiles()
 } 
 */
 
-//#endif
-//#endif
 
-
+#endif
+#endif
+#endif

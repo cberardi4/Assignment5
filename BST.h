@@ -23,7 +23,6 @@ public:
 	TreeNode<E>* getMin(); //leftmost
 	TreeNode<E>* getMax(); //rightmost
 	int getSize();
-	void setBST(BST<E> newBST);
 
 	TreeNode<E>* getSuccessor(TreeNode<E>* n); //helper function for delete method
 	virtual void printNodes(TreeNode<E>* n);
@@ -48,7 +47,7 @@ BST<E>::~BST()
 template <typename E>
 void BST<E>::printNodes(TreeNode<E>* n)
 {
-	
+	cout << "in parent bst" << endl;	
 }
 template <typename E>
 TreeNode<E>* BST<E>::getMax()
@@ -100,7 +99,7 @@ void BST<E>::insert(E *value)
 			parent = current;
 
 			//go left
-			if (value->getId() > current->value->getId())
+			if (value->getId() < current->value->getId())
 			{
 				current = current->left;
 				if (current == NULL) //found our position
@@ -300,41 +299,9 @@ int BST<E>::getSize()
 template<typename E>
 TreeNode<E>* BST<E>::find(E *v)
 {
-	TreeNode<E> *current = root;
-
-	//start at root check left or right keep searching till found or leaf
-	if (current == NULL)
-	{
-		return NULL;
-	}
-	else
-	{
-		while(current->value->getId() != v->getId())
-		{
-			if (v->getId() < current->value->getId()) //go left
-			{
-				current = current->left;
-			}
-			else //go right
-			{
-				current = current->right;
-			}
-			if (current == NULL)
-			{
-				return NULL;
-			}
-		}//found the node
-	}
-	return current;
-
+	return NULL;
 }
 
-
-template<class E>
-void BST<E>::setBST(BST<E> newBST)
-{
-
-}
 
 #endif
 
