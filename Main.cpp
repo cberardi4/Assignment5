@@ -434,7 +434,7 @@ void checkFiles()
 			{
 				getline(readFaculty, line);
 				int stud = atoi(line.c_str());
-				faculty->find(newFaculty->getId())->value->addStudent(stud);
+				//faculty->find(newFaculty->getId())->value->addStudent(stud);
 			}
 
 			line = "";
@@ -452,8 +452,8 @@ void checkFiles()
 			string name;
 			getline(readStudent, name);
 
-			getline(readStudent, line);
-			int id = atoi(line.c_str());
+			//getline(readStudent, line);
+			//int id = atoi(line.c_str());
 
 			string grade;
 			getline(readStudent, grade);
@@ -467,8 +467,10 @@ void checkFiles()
 			getline(readStudent, line);
 			int advisor = atoi(line.c_str());
 
-			Student *newStudent = new Student(id, name, grade, major, gpa, advisor);
+			Student *newStudent = new Student(startingStudentId++, name, grade, major, gpa, advisor);
+			cout << "about to insert student : " << name << grade << major << gpa << advisor << endl;
 			students->insert(newStudent);
+			cout << "called insert in main" << endl;
 
 			line = "";
 		}

@@ -13,8 +13,8 @@ public:
 	BST();
 	~BST();
 
-	virtual void insert(E *value);
-	bool contains(E value);
+	virtual void insert(E *v);
+	bool contains(E *v);
 	virtual int deleteNode(E *value);
 	TreeNode<E>* getRoot();
 	void setRoot(TreeNode<E>* r);
@@ -82,9 +82,10 @@ TreeNode<E>* BST<E>::getMin()
 	return current;
 }
 template <typename E>
-void BST<E>::insert(E *value)
+void BST<E>::insert(E *v)
 {
-	TreeNode<E> *node = new TreeNode<E>(value);
+	TreeNode<E> *node = new TreeNode<E>(v);
+	cout << "inserting " << v << endl;
 
 	if (root == NULL) //empty tree
 	{
@@ -101,7 +102,7 @@ void BST<E>::insert(E *value)
 			parent = current;
 
 			//go left
-			if (value->getId() < current->value->getId())
+			if (v->getId() < current->value->getId())
 			{
 				current = current->left;
 				if (current == NULL) //found our position
@@ -126,7 +127,7 @@ void BST<E>::insert(E *value)
 	}
 }
 template <typename E>
-bool BST<E>::contains(E value)
+bool BST<E>::contains(E *v)
 {
 	if (root == NULL)
 	{
@@ -136,9 +137,9 @@ bool BST<E>::contains(E value)
 	{
 		TreeNode<E> *current = root;
 
-		while(current->value != value)
+		while(current->value != v)
 		{
-			if (value < current->value) //go left
+			if (v < current->value) //go left
 			{
 				current = current->left;
 			}
