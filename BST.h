@@ -15,7 +15,7 @@ public:
 
 	virtual void insert(E *value);
 	bool contains(E value);
-	void deleteNode(E value);
+	virtual int deleteNode(E *value);
 	TreeNode<E>* getRoot();
 	virtual TreeNode<E>* find(E *v);
 
@@ -23,6 +23,7 @@ public:
 	TreeNode<E>* getMin(); //leftmost
 	TreeNode<E>* getMax(); //rightmost
 	int getSize();
+	void setSize(int s);
 
 	TreeNode<E>* getSuccessor(TreeNode<E>* n); //helper function for delete method
 	virtual void printNodes(TreeNode<E>* n);
@@ -153,7 +154,7 @@ bool BST<E>::contains(E value)
 	return true;
 }
 template <typename E>
-void BST<E>::deleteNode(E value)
+int BST<E>::deleteNode(E* value)
 {
 	if (root==NULL) //empty tree
 		cout << "empty tree"<< endl;
@@ -179,7 +180,8 @@ void BST<E>::deleteNode(E value)
 		}
 		if (current == NULL)
 		{
-			cout << "Wasn't in the tree" << endl;
+			cout << "ID Wasn't in the Database." << endl;
+			return 0;
 		}
     }
 
@@ -251,6 +253,7 @@ void BST<E>::deleteNode(E value)
 			successor->left = current->left;
 		}
 	--size;
+	return 1;
 	
 }
 
@@ -294,6 +297,12 @@ int BST<E>::getSize()
 {
 	return size;
 }
+template<typename E>
+void BST<E>::setSize(int s)
+{
+	size = s;
+}
+
 
 
 template<typename E>

@@ -27,6 +27,7 @@ public:
 	string getLevel();
 	string getDepartment();
 	list<int>* getAdvisees();
+	int countAdvisees();
 
 	//mutators
 	void setName(string newName);

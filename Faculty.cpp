@@ -67,7 +67,10 @@ void Faculty::setDepartment(string newDepartment)
 {
 	department = newDepartment;
 }
-
+int Faculty::countAdvisees()
+{
+	return advisees->size();
+}
 
 
 

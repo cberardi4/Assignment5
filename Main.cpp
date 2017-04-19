@@ -30,7 +30,7 @@ void printStudents(TreeNode<Student>* root);
 void printFaculty(TreeNode<Faculty>* root);
 void displayStudent();
 void displayFaculty();
-void printFacultyAdvisor(int studId);
+void printFacultyAdvisor();
 void printAdvisees();
 void addStudent();
 void deleteStudent();
@@ -49,6 +49,10 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+	cout << "Hello, Welcome to the Database!" << endl;
+	cout <<"What would you like to do today?" << endl;
+	cout <<"--------------------------------" << endl;
+
 	//keep looping untill they quit
 	while(true)
 	{
@@ -76,7 +80,7 @@ int main(int argc, char** argv)
 				displayFaculty();
 				break;
 			case 5:
-				printFacultyAdvisor(studId);
+				printFacultyAdvisor();
 				break;
 			case 6:
 				printAdvisees();
@@ -125,15 +129,40 @@ int main(int argc, char** argv)
 			default:
 				cout <<"Not a valid option." << endl;
 		}
+
+		char yOrN;
+		while(true)
+		{
+			cout << "Would you like to choose another option? Type Y or N : ";
+			cin >> yOrN;
+
+			if(yOrN != 'y' && yOrN != 'Y' && yOrN != 'n' && yOrN != 'N')
+			{
+				cout << "Not an option. Choose again. " << endl;
+				continue;
+			}
+			else
+			{
+				if(yOrN == 'n' || yOrN == 'N')
+				{
+					exitProgram();
+				}
+				else if(yOrN == 'y' || yOrN == 'Y')
+				{
+					//do nothing
+					break;
+				}
+
+			}	
+
+		}
+
 	}
 }
 int displayMenu()
 {
 	int response;
 
-	cout << "Hello, Welcome to the Database!" << endl;
-	cout <<"What would you like to do today?" << endl;
-	cout <<"--------------------------------" << endl;
 	cout <<" " << endl;
 	cout <<"1. Print all students and their information (sorted by ascending id #)" << endl;
 	cout <<"2. Print all faculty and their information (sorted by ascending id #)" << endl;
@@ -192,8 +221,24 @@ void displayFaculty()
 
 	foundFaculty->value->printFaculty();
 }
-void printFacultyAdvisor(int studID)
+void printFacultyAdvisor()
 {
+	int studID;
+	bool isValid = true;
+	while(isValid)
+	{
+		string input;
+		cout << "Enter Student ID: " << endl;
+		cin >> input;
+		studID = atoi(input.c_str());
+		if(studID != 0)
+		{
+			isValid = false;
+		}
+		else
+			cout << "Not Valid ID" << endl;
+	}
+	
 	//get the student object
 	TreeNode<Student>* foundStudent = new TreeNode<Student>();
 	foundStudent = students->find(studID);
@@ -207,7 +252,7 @@ void printFacultyAdvisor(int studID)
 	
 
 }
-void printAdvisees(int facID)
+void printAdvisees()
 {
 	//get the faculty object
 	//get the list of advisees (id numbers)
@@ -225,15 +270,18 @@ void addStudent()
 	float gpa; 
 
 	cout << "Name: " << endl;
-	cin >> name;
+	cin.ignore();
+	getline(cin, name, '\n');
 	cout << "Level: " << endl;
 	cin >> level;
 	cout << "Major: " << endl;
+	getline(cin, major, '\n');
 	cin >> major;
 	cout << "GPA: " << endl;
 	cin >> gpa;
-	cout << "Advisor: " << endl;
-	cin >> advisor;
+
+	
+
 
 	Student *newStud = new Student(startingStudentId++, name, level, major, gpa, advisor);
 
@@ -249,7 +297,30 @@ void deleteStudent()
 	//save the last bst
 	//addStudStack();
 
+
 	//delete the student
+	int id;
+	string input;
+	while(true)
+	{
+		cout << "Enter ID of Student you want to delete: " << endl;
+		cin >> input;
+		id = atoi(input.c_str());
+		if(id == 0)
+		{
+			cout << "Not valid student ID. " << endl;
+			continue;
+		}
+
+		//if cant find student with that id, prompt again and say no such student
+		int success = students->deleteNode(id);
+		if(success == 1)
+		{
+			cout << "Successfully deleted Student: " << id << endl;
+			break;
+		}
+	}
+	
 }
 void addFaculty()
 {
@@ -260,11 +331,12 @@ void addFaculty()
 	string name, level, department;
 
 	cout << "Name: " << endl;
-	cin >> name;
+	cin.ignore();
+	getline(cin, name, '\n');
 	cout << "Level: " << endl;
-	cin >> level;
+	getline(cin, level, '\n');
 	cout << "Department: " << endl;
-	cin >> department;
+	getline(cin, department, '\n');
 
 	Faculty *newTeach = new Faculty(startingFacultyId++, name, level, department);
 
@@ -278,6 +350,27 @@ void deleteFaculty()
 	//addFacStack();
 
 	//delete the faculty
+	int id;
+	string input;
+	while(true)
+	{
+		cout << "Enter ID of Faculty you want to delete: " << endl;
+		cin >> input;
+		id = atoi(input.c_str());
+		if(id == 0)
+		{
+			cout << "Not valid student ID. " << endl;
+			continue;
+		}
+
+		//if cant find student with that id, prompt again and say no such student
+		int success = faculty->deleteNode(id);
+		if(success == 1)
+		{
+			cout << "Successfully deleted Faculty: " << id << endl;
+			break;
+		}
+	}
 }
 void changeAdvisor()
 {
