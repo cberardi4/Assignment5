@@ -17,6 +17,7 @@ public:
 	bool contains(E value);
 	virtual int deleteNode(E *value);
 	TreeNode<E>* getRoot();
+	void setRoot(TreeNode<E>* r);
 	virtual TreeNode<E>* find(E *v);
 
 	bool isEmpty();
@@ -285,6 +286,11 @@ template<typename E>
 TreeNode<E>* BST<E>::getRoot()
 {
 	return root;
+}
+template<typename E>
+void BST<E>::setRoot(TreeNode<E>* r)
+{
+	root = r;
 }
 
 template<typename E>

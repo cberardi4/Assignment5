@@ -97,7 +97,7 @@ public:
 			{
 				if (current == root)
 				{
-					root = NULL;
+					setRoot(NULL);
 				}
 				else if (isLeft)
 				{

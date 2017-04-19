@@ -58,6 +58,7 @@ int main(int argc, char** argv)
 	{
 		//what to do
 		response = displayMenu();
+		getchar();
 
 		TreeNode<Student> *stuRoot;
 		TreeNode<Faculty> *teachRoot;
@@ -130,32 +131,9 @@ int main(int argc, char** argv)
 				cout <<"Not a valid option." << endl;
 		}
 
-		char yOrN;
-		while(true)
-		{
-			cout << "Would you like to choose another option? Type Y or N : ";
-			cin >> yOrN;
-
-			if(yOrN != 'y' && yOrN != 'Y' && yOrN != 'n' && yOrN != 'N')
-			{
-				cout << "Not an option. Choose again. " << endl;
-				continue;
-			}
-			else
-			{
-				if(yOrN == 'n' || yOrN == 'N')
-				{
-					exitProgram();
-				}
-				else if(yOrN == 'y' || yOrN == 'Y')
-				{
-					//do nothing
-					break;
-				}
-
-			}	
-
-		}
+	
+		cout << "Press enter to continue. ";
+		getchar();
 
 	}
 }
