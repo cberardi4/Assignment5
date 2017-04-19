@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class FacultyBST:public BST<Faculty>
+class FacultyBST : public BST<Faculty>
 {
 public:
 	void printNodes(TreeNode<Faculty> *n)
