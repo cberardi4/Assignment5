@@ -49,6 +49,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+	checkFiles();
 	cout << "Hello, Welcome to the Database!" << endl;
 	cout <<"What would you like to do today?" << endl;
 	cout <<"--------------------------------" << endl;
@@ -396,7 +397,7 @@ void addFacStack(FacultyBST bst)
 	//facStack->push(faculty);
 }
 
-/*
+
 void checkFiles()
 {
 	ifstream readStudent("studentTable.txt");
@@ -411,19 +412,19 @@ void checkFiles()
 		while(!readFaculty.eof())
 		{
 			string name;
-			getLine(readFaculty, name);
+			getline(readFaculty, name);
 
-			getLine(readFaculty, line);
+			getline(readFaculty, line);
 			int id = atoi(line.c_str());
 
 			string level;
-			getLine(readFaculty, faculty);
+			getline(readFaculty, level);
 
 			string department;
 			getline(readFaculty, department);
 
-			Faculty newFaculty(id, name, level, department);
-			faculty.insert(newFaculty);
+			Faculty *newFaculty = new Faculty(id, name, level, department);
+			faculty->insert(newFaculty);
 
 			//getting list of advisees
 			getline(readFaculty, line);
@@ -431,9 +432,9 @@ void checkFiles()
 
 			for (int k=0; k<numAdvisees; ++k)
 			{
-				getLine(readFaculty, line);
+				getline(readFaculty, line);
 				int stud = atoi(line.c_str());
-				faculty.find(newFaculty)->value.addStudent(stud);
+				faculty->find(newFaculty->getId())->value->addStudent(stud);
 			}
 
 			line = "";
@@ -466,8 +467,8 @@ void checkFiles()
 			getline(readStudent, line);
 			int advisor = atoi(line.c_str());
 
-			Student newStudent(id, name, grade, major, gpa, advisor);
-			students.insert(newStudent);
+			Student *newStudent = new Student(id, name, grade, major, gpa, advisor);
+			students->insert(newStudent);
 
 			line = "";
 		}
@@ -477,7 +478,7 @@ void checkFiles()
 
 	//clear
 } 
-*/
+
 
 
 //#endif
