@@ -414,8 +414,13 @@ void checkFiles()
 			string name;
 			getline(readFaculty, name);
 
-			getline(readFaculty, line);
-			int id = atoi(line.c_str());
+			if(name.empty())
+			{
+				break;
+			}
+
+			//getline(readFaculty, line);
+			//int id = atoi(line.c_str());
 
 			string level;
 			getline(readFaculty, level);
@@ -423,7 +428,7 @@ void checkFiles()
 			string department;
 			getline(readFaculty, department);
 
-			Faculty *newFaculty = new Faculty(id, name, level, department);
+			Faculty *newFaculty = new Faculty(startingFacultyId++, name, level, department);
 			faculty->insert(newFaculty);
 
 			//getting list of advisees
@@ -452,10 +457,11 @@ void checkFiles()
 			string name;
 			getline(readStudent, name);
 
-			if(name == " ")
+			if(name.empty())
 			{
 				break;
 			}
+
 			//getline(readStudent, line);
 			//int id = atoi(line.c_str());
 
