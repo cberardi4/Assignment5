@@ -26,6 +26,7 @@ FacultyBST *faculty = new FacultyBST();
 //functions
 int displayMenu();
 void checkFiles();
+void writeToFiles();
 void printStudents(TreeNode<Student>* root);
 void printFaculty(TreeNode<Faculty>* root);
 void displayStudent();
@@ -259,10 +260,16 @@ void addStudent()
 	cout << "GPA: " << endl;
 	cin >> gpa;
 
-	
+	//TODO MAKE SURE THAT THAT FACULTY ID IS NOT ALREADY IN USE
+	int id = startingStudentId++;
+	TreeNode<Student> exists = students->find(id);
+	while(exists != NULL)
+	{
+		id = startingStudentId++;
+		TreeNode<Student> exists = students->find(id);
+	}
 
-
-	Student *newStud = new Student(startingStudentId++, name, level, major, gpa, advisor);
+	Student *newStud = new Student(id, name, level, major, gpa, advisor);
 
 	//add it to our tree
 	students->insert(newStud);
@@ -318,6 +325,8 @@ void addFaculty()
 	getline(cin, department, '\n');
 
 	Faculty *newTeach = new Faculty(startingFacultyId++, name, level, department);
+
+	//TODO MAKE SURE THAT THAT FACULTY ID IS NOT ALREADY IN USE
 
 	//add them to the bst
 	faculty->insert(newTeach);
@@ -379,8 +388,21 @@ void rollbackStudent()
 	//get the last saved bst from stack
 	//students = studentStack->pop();
 }
+void writeToFiles()
+{
+	ofstream outputFaculty;
+	outputFaculty.open("facultyTable.txt");
+	ofstream outputStudent;
+	outputStudent.open("studentTable.txt");
+	students->printStudToFile(students->getRoot(), outputStudent);
+	faculty->printFacToFile(faculty->getRoot(), outputFaculty);
+
+	outputFaculty.close();
+	outputStudent.close();
+}
 void exitProgram()
 {
+	writeToFiles();	
 	cout << "Exiting program now." << endl;
 	exit(0);
 }
@@ -416,11 +438,11 @@ void checkFiles()
 
 			if(name.empty())
 			{
-				break;
+				continue;
 			}
 
-			//getline(readFaculty, line);
-			//int id = atoi(line.c_str());
+			getline(readFaculty, line);
+			int id = atoi(line.c_str());
 
 			string level;
 			getline(readFaculty, level);
@@ -428,7 +450,7 @@ void checkFiles()
 			string department;
 			getline(readFaculty, department);
 
-			Faculty *newFaculty = new Faculty(startingFacultyId++, name, level, department);
+			Faculty *newFaculty = new Faculty(id, name, level, department);
 			faculty->insert(newFaculty);
 
 			//getting list of advisees
@@ -444,11 +466,8 @@ void checkFiles()
 
 			line = "";
 		}
-
 	 	readFaculty.close();
 	}
-
-	//clear
 
 	if (readStudent.is_open())
 	{
@@ -459,11 +478,11 @@ void checkFiles()
 
 			if(name.empty())
 			{
-				break;
+				continue;
 			}
 
-			//getline(readStudent, line);
-			//int id = atoi(line.c_str());
+			getline(readStudent, line);
+			int id = atoi(line.c_str());
 
 			string grade;
 			getline(readStudent, grade);
@@ -477,7 +496,7 @@ void checkFiles()
 			getline(readStudent, line);
 			int advisor = atoi(line.c_str());
 
-			Student *newStudent = new Student(startingStudentId++, name, grade, major, gpa, advisor);
+			Student *newStudent = new Student(id, name, grade, major, gpa, advisor);
 
 			students->insert(newStudent);
 			
@@ -485,12 +504,9 @@ void checkFiles()
 			line = "";
 		}
 
-
-		readStudent.clear();
 		readStudent.close();
 	}
 
-	//clear
 } 
 
 

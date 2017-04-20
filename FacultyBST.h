@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Faculty.h"
 #include "TreeNode.h"
 #include "BST.h"
@@ -10,13 +11,33 @@ class FacultyBST : public BST<Faculty>
 public:
 	void printNodes(TreeNode<Faculty> *n)
 	{
-		if (n == NULL)
-			cout << " " << endl;
-		else if (n != NULL)
+		if (n != NULL)
 		{
 			printNodes(n->left);
 			n->value->printFaculty();
 			printNodes(n->right);
+		}
+
+	}
+	void printFacToFile(TreeNode<Faculty> *n, ofstream &file)
+	{
+		if (n != NULL)
+		{
+			printFacToFile(n->left, file);
+			file << n->value->getId() << endl;
+			file << n->value->getName() << endl;
+			file << n->value->getLevel() << endl;
+			file << n->value->getDepartment() << endl;
+			
+			//get list of advisees
+			list<int>* advisees = n->value->getAdvisees();
+			file << n->value->countAdvisees();
+
+			for(int id : *advisees)
+			{
+				file << id << endl;
+			}
+			printFacToFile(n->right, file);
 		}
 
 	}

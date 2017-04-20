@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <fstream>
 #include "Student.h"
 #include "BST.h"
 #include <string>
@@ -11,13 +11,25 @@ class StudentBST: public BST<Student>
 public:
 	void printNodes(TreeNode<Student> *n)
 	{
-		if (n == NULL)
-			cout << " " << endl;
-		else if (n != NULL)
+		if(n != NULL)
 		{
 			printNodes(n->left);
 			n->value->printStudent();
 			printNodes(n->right);
+		}
+
+	}
+	void printStudToFile(TreeNode<Student> *n, ofstream &file)
+	{
+		if(n != NULL)
+		{
+			printStudToFile(n->left, file);
+			file <<  n->value->getId() << endl;
+			file <<  n->value->getName() << endl;
+			file << n->value->getMajor() << endl;
+			file <<  n->value->getGpa() << endl;
+			file << n->value->getAdvisor() << endl;
+			printStudToFile(n->right, file);
 		}
 
 	}
