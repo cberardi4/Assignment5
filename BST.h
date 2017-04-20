@@ -85,7 +85,6 @@ template <typename E>
 void BST<E>::insert(E *v)
 {
 	TreeNode<E> *node = new TreeNode<E>(v);
-	cout << "inserting " << v << endl;
 
 	if (root == NULL) //empty tree
 	{
