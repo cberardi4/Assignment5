@@ -89,6 +89,7 @@ void BST<E>::insert(E *v)
 	if (root == NULL) //empty tree
 	{
 		root = node;
+		++size;
 	}
 
 	else
@@ -124,6 +125,8 @@ void BST<E>::insert(E *v)
 			}
 		}
 	}
+
+	cout << "inserted member, size =" << size << endl;
 }
 template <typename E>
 bool BST<E>::contains(E *v)

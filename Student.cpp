@@ -75,6 +75,10 @@ void Student::setGpa(float newGpa)
 {
 	gpa = newGpa;
 }
+void Student::setAdvisor(int adID)
+{
+	advisor = adID;
+}
 
 
 

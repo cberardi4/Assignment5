@@ -11,6 +11,7 @@
 #include <string>
 #include <stack>
 #include <iostream>
+#include <list>
 
 //global variables
 int response;
@@ -33,12 +34,13 @@ void displayStudent();
 void displayFaculty();
 void printFacultyAdvisor();
 void printAdvisees();
+int assignStudAdvisor();
 void addStudent();
 void deleteStudent();
 void addFaculty();
 void deleteFaculty();
-void changeAdvisor();
 void removeAdvisee();
+void changeAdvisor();
 void rollbackStudent();
 void rollbackFaculty();
 void exitProgram();
@@ -133,10 +135,6 @@ int main(int argc, char** argv)
 				cout <<"Not a valid option." << endl;
 		}
 
-	
-		cout << "Press enter to continue. ";
-		getchar();
-
 	}
 }
 int displayMenu()
@@ -167,11 +165,13 @@ int displayMenu()
 
 void printStudents(TreeNode<Student>* stuRoot)
 {
+	cout << "Students: " << endl;
 	students->printNodes(stuRoot);
 }
 
 void printFaculty(TreeNode<Faculty>* teachRoot)
 {
+	cout << "Faculty: " << endl;
 	faculty->printNodes(teachRoot);
 }
 void displayStudent()
@@ -222,22 +222,90 @@ void printFacultyAdvisor()
 	//get the student object
 	TreeNode<Student>* foundStudent = new TreeNode<Student>();
 	foundStudent = students->find(studID);
-	//get their faculty advisors id
-	int facId = (foundStudent->value)->getAdvisor();
-	//traverse the faculty tree
-	TreeNode<Faculty>* foundFaculty = new TreeNode<Faculty>();
-	foundFaculty = faculty->find(facId);
-	//once found print that faculty member
-	(foundFaculty->value)->printFaculty();
+	if(foundStudent != NULL)
+	{
+		cout << "Student " << studID << "'s Advisor: " << endl;
+		//get their faculty advisors id
+		int facId = (foundStudent->value)->getAdvisor();
+		//traverse the faculty tree
+		TreeNode<Faculty>* foundFaculty = new TreeNode<Faculty>();
+		foundFaculty = faculty->find(facId);
+		//once found print that faculty member
+		(foundFaculty->value)->printFaculty();	
+	}
+	else
+		cout << "Student not found." << endl;
 	
 
 }
+
 void printAdvisees()
 {
 	//get the faculty object
-	//get the list of advisees (id numbers)
-	//traverse the student tree for each number, print them as they come up
-	cout << "" << endl;
+	int facID;
+	bool isValid = true;
+	while(isValid)
+	{
+		string input;
+		cout << "Enter Faculty ID: " << endl;
+		cin >> input;
+		facID = atoi(input.c_str());
+		if(facID != 0)
+		{
+			isValid = false;
+		}
+		else
+			cout << "Not Valid ID" << endl;
+	}
+	TreeNode<Faculty>* foundFaculty = new TreeNode<Faculty>();
+	foundFaculty = faculty->find(facID);
+	if(foundFaculty != NULL)
+	{
+		cout << "Faculty " << facID << "'s Advisees: " << endl;
+		//get the list of advisees (id numbers)
+		list<int>* advisees = foundFaculty->value->getAdvisees();
+		for(int i : *advisees)
+		{
+			//traverse the student tree for each number, print them as they come up
+			students->find(i)->value->printStudent();
+		}
+		
+	}
+	else
+		cout << "Faculty Member not found." << endl;
+	
+}
+int assignStudAdvisor()
+{
+	//check if there are advisors
+	
+	if(faculty->getSize() == 0)
+	{
+		cout << "No Faculty Members. Add Faculty in order to assign Advisor." << endl;
+		
+	}
+	else if(faculty->getSize() == 1)
+	{
+		//there is only one faculty member, so just assign the student to them
+		return faculty->getRoot()->value->getId();
+	}
+	else if(faculty->getSize() > 1)
+	{
+		//generate random number for the faculty id
+		//make sure it is in between starting num and max size
+		int start = 1;
+		int end = faculty->getSize();
+
+		int r = (end - start) + 1;
+		
+		srand(time(NULL));
+		int id = start + rand() % r;
+
+		return id;
+
+	}
+	return -1;
+	
 }
 void addStudent()
 {
@@ -248,34 +316,113 @@ void addStudent()
 	int advisor;
 	string name, level, major;
 	float gpa; 
-
-	cout << "Name: " << endl;
-	cin.ignore();
-	getline(cin, name, '\n');
-	cout << "Level: " << endl;
-	cin >> level;
-	cout << "Major: " << endl;
-	getline(cin, major, '\n');
-	cin >> major;
-	cout << "GPA: " << endl;
-	cin >> gpa;
-
-	//TODO MAKE SURE THAT THAT FACULTY ID IS NOT ALREADY IN USE
-	int id = startingStudentId++;
-	TreeNode<Student> exists = students->find(id);
-	while(exists != NULL)
+	advisor = assignStudAdvisor();
+	if(advisor != -1)
 	{
-		id = startingStudentId++;
-		TreeNode<Student> exists = students->find(id);
+
+		cout << "Name: " << endl;
+		getline(cin, name, '\n');
+		cout << "Level: " << endl;
+		cin >> level;
+		cout << "Major: " << endl;
+		getline(cin, major, '\n');
+		cin >> major;
+		cout << "GPA: " << endl;
+		cin >> gpa;
+
+		int id = startingStudentId++;
+		TreeNode<Student> *exists = students->find(id);
+		while(exists != NULL)
+		{
+			id = startingStudentId++;
+			TreeNode<Student> *exists = students->find(id);
+		}
+
+	
+
+		Student *newStud = new Student(id, name, level, major, gpa, advisor);
+
+		//add it to our tree
+		students->insert(newStud);
+
+		//add the advisee to the faculty member
+		Faculty *ad = faculty->find(advisor)->value;
+		ad->addStudent(id);
 	}
 
-	Student *newStud = new Student(id, name, level, major, gpa, advisor);
+}
+void removeAdvisee()
+{
+	if(faculty->getSize() != 0)
+	{
+		string advInput, studInput;
+		int advID, studID;
+		
+		while(true)
+		{
+			cout << "Enter Advisor ID: " << endl;
+			cout << "Enter 0 to quit" << endl;
+			cin >> advInput;
+			cout << "Enter ID of Advisee to remove from list: " << endl;
+			cout << "Enter 0 to quit" << endl;
+			cin >> studInput;
+			advID = atoi(advInput.c_str());
+			studID = atoi(studInput.c_str());
+			if(advID == 0 || studID == 0)
+			{
+				break;
+			}
 
-	//add it to our tree
-	students->insert(newStud);
+			if(faculty->find(advID) == NULL)
+			{
+				cout << "Not a valid faculty ID. Try again." << endl;
+				continue;
+			}
+			
+			if(students->find(studID) == NULL)
+			{
+				cout << "Not valid student ID. Try again." << endl;
+				continue;
+			}
+					
+			//bst->facultyNode->faculty->removeStudent
+			faculty->find(advID)->value->removeAdvisee(studID);
 
-	//have the advisor id, find it in the database, add the student
-	//faculty.find(advisor);
+			int newid;
+			while(true)
+			{
+				//reassign students advisor
+				int start = 1;
+				int end = faculty->getSize();
+
+				int r = (end - start) + 1;
+				
+				srand(time(NULL));
+				newid = start + rand() % r;
+				if(newid != advID)
+				{
+					break;
+				}
+				
+			}
+			//update student advisor
+			students->find(studID)->value->setAdvisor(newid);
+			//update advior's list
+			faculty->find(newid)->value->addStudent(studID);
+			
+
+
+			cout << "Successfully removed Student: " << studID << " from " << advID << "'s list." << endl;
+			break;
+			
+		}
+
+	}
+	else if(faculty->getSize() == 0)
+	{
+		cout << "No Faculty in Database. " << endl;
+	}
+	
 
 }
 void deleteStudent()
@@ -283,25 +430,40 @@ void deleteStudent()
 	//save the last bst
 	//addStudStack();
 
-
 	//delete the student
 	int id;
 	string input;
 	while(true)
 	{
 		cout << "Enter ID of Student you want to delete: " << endl;
+		cout << "Enter 0 to quit" << endl;
 		cin >> input;
 		id = atoi(input.c_str());
+
 		if(id == 0)
 		{
-			cout << "Not valid student ID. " << endl;
+			break;
+		}
+		
+		if(students->find(id) == NULL)
+		{
+			cout << "Not valid student ID. Try again." << endl;
 			continue;
 		}
-
+		
+		
 		//if cant find student with that id, prompt again and say no such student
+
+		Student *tempStud = students->find(id)->value;
 		int success = students->deleteNode(id);
+
 		if(success == 1)
 		{
+			//delete student id from faculty list
+			int advID = tempStud->getAdvisor();
+			//bst->facultyNode->faculty->removeStudent
+			faculty->find(advID)->value->removeAdvisee(id);
+
 			cout << "Successfully deleted Student: " << id << endl;
 			break;
 		}
@@ -317,7 +479,6 @@ void addFaculty()
 	string name, level, department;
 
 	cout << "Name: " << endl;
-	cin.ignore();
 	getline(cin, name, '\n');
 	cout << "Level: " << endl;
 	getline(cin, level, '\n');
@@ -336,25 +497,46 @@ void deleteFaculty()
 {
 	//save the bst
 	//addFacStack();
-
 	//delete the faculty
 	int id;
 	string input;
 	while(true)
 	{
-		cout << "Enter ID of Faculty you want to delete: " << endl;
+		cout << "Enter ID of Facutly you want to delete: " << endl;
 		cin >> input;
 		id = atoi(input.c_str());
-		if(id == 0)
+		
+		if(faculty->find(id) == NULL)
 		{
-			cout << "Not valid student ID. " << endl;
+			cout << "Not valid faculty ID. Try again." << endl;
 			continue;
 		}
-
+		
 		//if cant find student with that id, prompt again and say no such student
+
+		Faculty *temp = faculty->find(id)->value;
+
+		list<int>* advisees = temp->getAdvisees();		
 		int success = faculty->deleteNode(id);
+
 		if(success == 1)
 		{
+			//reassign advisees to existing advisors
+			for(int i : *advisees)
+			{
+				int start = 1;
+				int end = faculty->getSize();
+
+				int r = (end - start) + 1;
+				
+				srand(time(NULL));
+				int newid = start + rand() % r;
+				//update student advisor
+				students->find(i)->value->setAdvisor(newid);
+				//update advior's list
+				faculty->find(newid)->value->addStudent(i);
+			}
+
 			cout << "Successfully deleted Faculty: " << id << endl;
 			break;
 		}
@@ -364,19 +546,53 @@ void changeAdvisor()
 {
 	//save the bst
 	//addStudStack();
+	string studInput, advisInput;
+	int studID, advID;
+	while(true)
+	{
+		//get the student
+		cout << "Enter Student ID: " << endl;
+		cout << "Enter 0 to stop" << endl;
+		cin >> studInput;
+		cout << "Enter new Advisor ID: " << endl;
+		cout << "Enter 0 to stop" << endl;
+		cin >> advisInput;
 
-	//get the student
-	//get advisor instance
-	//switch the advisor
-}
-void removeAdvisee()
-{
-	//save the bst
-	//addFacStack();
+		studID = atoi(studInput.c_str());
+		advID = atoi(advisInput.c_str());
 
-	//get the faculty object
-	//get the list of advisees
-	//find the advisee and delete them
+		if(studID == 0 || advID == 0)
+		{
+			break;
+		}
+		//get advisor instance
+		if(students->find(studID) == NULL)
+		{
+			cout << "Student does not exist." << endl;
+			continue;
+		}
+		if(faculty->find(advID) == NULL)
+		{
+			cout << "Advisor does not exist." << endl;
+			continue;
+		}
+
+		break;
+
+	}
+
+		//found the student and new faculty
+
+		//store the old advisor, so you can remove this student from their list
+		int old = students->find(studID)->value->getAdvisor();
+
+		//remove that student from their list
+		faculty->find(old)->value->removeAdvisee(studID);
+
+		//set the students advisor
+		students->find(studID)->value->setAdvisor(advID);
+		//set the student in the advisors list
+		faculty->find(advID)->value->addStudent(studID);
 }
 void rollbackFaculty()
 {

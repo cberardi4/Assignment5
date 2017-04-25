@@ -73,8 +73,11 @@ public:
 	int deleteNode(int id)
 	{
 		TreeNode<Student> *root = getRoot();
-		if (root==NULL) //empty tree
-			cout << "empty tree"<< endl;
+		if (root==NULL)
+		{ //empty tree
+			cout << "Empty tree"<< endl;
+			return 0;
+		}
 
 		TreeNode<Student> *parent = NULL;
 		TreeNode<Student> *current = root;
@@ -172,6 +175,8 @@ public:
 
 		int size = getSize();
 		setSize(--size);
+
+	
 		return 1;	
 	}
 	

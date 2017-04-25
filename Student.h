@@ -28,9 +28,11 @@ public:
 	double getGpa();
 	int getAdvisor();
 
+
 	//mutators
 	void setName(string newName);
 	void setLevel(string newLevel);
 	void setMajor(string newMajor);
 	void setGpa(float newGpa);
+	void setAdvisor(int adID);
 };

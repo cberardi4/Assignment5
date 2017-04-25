@@ -13,7 +13,6 @@ Faculty::Faculty(int i, string n, string l, string d)
 	department = d;
 	advisees = new list<int>();
 }
-
 Faculty::Faculty()
 {
 	id = 0;
@@ -29,6 +28,11 @@ void Faculty::printFaculty()
 	cout << "Name: " << name << endl;
 	cout << "Level: " << level << endl;
 	cout << "Department: " << department << endl;
+	cout << "Advisees: " << endl;
+	for(int i : *advisees)
+	{
+		cout << i << endl;
+	}
 }
 
 int Faculty::getId()
@@ -50,6 +54,10 @@ string Faculty::getDepartment()
 list<int>* Faculty::getAdvisees()
 {
 	return advisees;
+}
+void Faculty::removeAdvisee(int studID)
+{
+	advisees->remove(studID);
 }
 void Faculty::addStudent(int id)
 {

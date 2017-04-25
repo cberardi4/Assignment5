@@ -27,6 +27,7 @@ public:
 	string getLevel();
 	string getDepartment();
 	list<int>* getAdvisees();
+	void removeAdvisee(int studID);
 	int countAdvisees();
 
 	//mutators
