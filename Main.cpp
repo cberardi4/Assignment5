@@ -20,8 +20,8 @@ int startingFacultyId = 1;
 StudentBST *students = new StudentBST();
 FacultyBST *faculty = new FacultyBST();
 
-//stack<StudentBST> *studStack = new stack<>();
-//stack<FacultyBST> *facStack = new stack<>();
+stack<StudentBST> studStack;
+stack<FacultyBST> facStack;
 
 
 //functions
@@ -53,6 +53,9 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	checkFiles();
+	//addStudStack();
+	//addFacStack();
+
 	cout << "Hello, Welcome to the Database!" << endl;
 	cout <<"What would you like to do today?" << endl;
 	cout <<"--------------------------------" << endl;
@@ -110,18 +113,19 @@ int main(int argc, char** argv)
 				break;
 			case 13:
 				char r;
-				cout << "Would you like to rollback student(s) or faculty(f)" << endl;
+				//cant only revert student/fac because changes affect both. ie changing advisor adds to faculty and students
+				cout << "Would you like to rollback to the last Databse version? (y/n)" << endl;
 				cin >> r;
 				while (true)
 				{
-					if (r == 'f')
+					if (r == 'y' || r == 'Y')
 					{
 						rollbackFaculty();
+						rollbackStudent();
 						break;
 					}
-					else if (r == 's')
+					else if (r == 'n' || r == 'N')
 					{
-						rollbackStudent();
 						break;
 					}
 					else 
@@ -166,12 +170,16 @@ int displayMenu()
 void printStudents(TreeNode<Student>* stuRoot)
 {
 	cout << "Students: " << endl;
+	if(students->empty())
+		cout << "No Students in Database." << endl;
 	students->printNodes(stuRoot);
 }
 
 void printFaculty(TreeNode<Faculty>* teachRoot)
 {
 	cout << "Faculty: " << endl;
+	if(faculty->empty())
+		cout << "No Faculty in Database." << endl;
 	faculty->printNodes(teachRoot);
 }
 void displayStudent()
@@ -184,8 +192,10 @@ void displayStudent()
 	cin >> id;
 
 	foundStudent = students->find(id);
-
-	foundStudent->value->printStudent();
+	if(foundStudent != NULL)
+		foundStudent->value->printStudent();
+	else 
+		cout << "Student " << id << " does not exist in Databse." << endl;
 
 }
 void displayFaculty()
@@ -199,7 +209,10 @@ void displayFaculty()
 
 	foundFaculty = faculty->find(id);
 
-	foundFaculty->value->printFaculty();
+	if(foundFaculty != NULL)
+		foundFaculty->value->printFaculty();
+	else 
+		cout << "Faculty " << id << " does not exist in Databse." << endl;
 }
 void printFacultyAdvisor()
 {
@@ -241,6 +254,7 @@ void printFacultyAdvisor()
 
 void printAdvisees()
 {
+
 	//get the faculty object
 	int facID;
 	bool isValid = true;
@@ -269,6 +283,8 @@ void printAdvisees()
 			//traverse the student tree for each number, print them as they come up
 			students->find(i)->value->printStudent();
 		}
+		if(advisees->size() == 0)
+			cout << "No Advisees. " << endl;
 		
 	}
 	else
@@ -277,6 +293,10 @@ void printAdvisees()
 }
 int assignStudAdvisor()
 {
+	//save the bst
+	addFacStack();
+	addStudStack();
+
 	//check if there are advisors
 	
 	if(faculty->getSize() == 0)
@@ -309,8 +329,9 @@ int assignStudAdvisor()
 }
 void addStudent()
 {
-	//save the last bst before we change
-	//addStudStack();
+	//save the bst
+	addFacStack();
+	addStudStack();
 
 	//make a new student
 	int advisor;
@@ -353,6 +374,10 @@ void addStudent()
 }
 void removeAdvisee()
 {
+	//save the bst
+	addFacStack();
+	addStudStack();
+
 	if(faculty->getSize() != 0)
 	{
 		string advInput, studInput;
@@ -427,8 +452,9 @@ void removeAdvisee()
 }
 void deleteStudent()
 {
-	//save the last bst
-	//addStudStack();
+	//save the bst
+	addFacStack();
+	addStudStack();
 
 	//delete the student
 	int id;
@@ -472,8 +498,9 @@ void deleteStudent()
 }
 void addFaculty()
 {
-	//save the last bst
-	//addFacStack();
+	//save the bst
+	addFacStack();
+	addStudStack();
 
 	//make a new faculty
 	string name, level, department;
@@ -487,8 +514,6 @@ void addFaculty()
 
 	Faculty *newTeach = new Faculty(startingFacultyId++, name, level, department);
 
-	//TODO MAKE SURE THAT THAT FACULTY ID IS NOT ALREADY IN USE
-
 	//add them to the bst
 	faculty->insert(newTeach);
 }
@@ -496,7 +521,9 @@ void addFaculty()
 void deleteFaculty()
 {
 	//save the bst
-	//addFacStack();
+	addFacStack();
+	addStudStack();
+
 	//delete the faculty
 	int id;
 	string input;
@@ -545,7 +572,9 @@ void deleteFaculty()
 void changeAdvisor()
 {
 	//save the bst
-	//addStudStack();
+	addFacStack();
+	addStudStack();
+
 	string studInput, advisInput;
 	int studID, advID;
 	while(true)
@@ -597,12 +626,24 @@ void changeAdvisor()
 void rollbackFaculty()
 {
 	//get the last saved bst from stack
-	//faculty = facStack->pop();
+	if(!facStack.empty())
+	{
+		faculty = &facStack.top();
+		facStack.pop();
+	}
+	else
+		cout << "No previous versions." << endl;
 }
 void rollbackStudent()
 {
 	//get the last saved bst from stack
-	//students = studentStack->pop();
+	if(!studStack.empty())
+	{
+		students = &studStack.top();
+		studStack.pop();
+	}
+	else
+		cout << "No previous versions." << endl;
 }
 void writeToFiles()
 {
@@ -622,20 +663,18 @@ void exitProgram()
 	cout << "Exiting program now." << endl;
 	exit(0);
 }
-
-
 void addStudStack()
 {
 	//add a bst to the stack of studentBST
-	//studStack->push(students);
+	StudentBST lastStudBST = *students;
+	studStack.push(lastStudBST);
 }
-void addFacStack(FacultyBST bst)
+void addFacStack()
 {
 	//ad a bst to the stack of facultyBST
-	//facStack->push(faculty);
+	FacultyBST lastFacBST = *faculty;
+	facStack.push(lastFacBST);
 }
-
-
 void checkFiles()
 {
 	ifstream readStudent("studentTable.txt");
