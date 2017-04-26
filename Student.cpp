@@ -56,6 +56,7 @@ void Student::printStudent()
 	cout << "ID: " << id << endl;
 	cout << "Name: " << name << endl;
 	cout << "Major: " << major << endl;
+	cout << "Level: " << level << endl;
 	cout << "GPA: " << gpa << endl;
 	cout << "Advisor: " << advisor << endl;
 }
