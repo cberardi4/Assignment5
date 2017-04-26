@@ -31,7 +31,7 @@ public:
 			
 			//get list of advisees
 			list<int>* advisees = n->value->getAdvisees();
-			file << n->value->countAdvisees();
+			file << n->value->countAdvisees() << endl;
 
 			for(int id : *advisees)
 			{

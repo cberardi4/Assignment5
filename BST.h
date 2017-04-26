@@ -49,7 +49,7 @@ BST<E>::~BST()
 template <typename E>
 void BST<E>::printNodes(TreeNode<E>* n)
 {
-	cout << "in parent bst" << endl;	
+		
 }
 template <typename E>
 TreeNode<E>* BST<E>::getMax()
@@ -126,7 +126,7 @@ void BST<E>::insert(E *v)
 		}
 	}
 
-	cout << "inserted member, size =" << size << endl;
+	
 }
 template <typename E>
 bool BST<E>::contains(E *v)

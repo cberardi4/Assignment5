@@ -12,16 +12,22 @@
 #include <stack>
 #include <iostream>
 #include <list>
+#include <vector>
 
 //global variables
 int response;
 int startingStudentId = 1000;
 int startingFacultyId = 1;
+
+//TODO try to not use pointers for trees
+
 StudentBST *students = new StudentBST();
 FacultyBST *faculty = new FacultyBST();
 
-stack<StudentBST> studStack;
-stack<FacultyBST> facStack;
+// stack<StudentBST> studStack;
+// stack<FacultyBST> facStack;
+std::vector<StudentBST> studStack;
+std::vector<FacultyBST> facStack;
 
 
 //functions
@@ -63,6 +69,8 @@ int main(int argc, char** argv)
 	//keep looping untill they quit
 	while(true)
 	{
+		
+		
 		//what to do
 		response = displayMenu();
 		getchar();
@@ -170,7 +178,7 @@ int displayMenu()
 void printStudents(TreeNode<Student>* stuRoot)
 {
 	cout << "Students: " << endl;
-	if(students->empty())
+	if(students->isEmpty())
 		cout << "No Students in Database." << endl;
 	students->printNodes(stuRoot);
 }
@@ -178,7 +186,7 @@ void printStudents(TreeNode<Student>* stuRoot)
 void printFaculty(TreeNode<Faculty>* teachRoot)
 {
 	cout << "Faculty: " << endl;
-	if(faculty->empty())
+	if(faculty->isEmpty())
 		cout << "No Faculty in Database." << endl;
 	faculty->printNodes(teachRoot);
 }
@@ -191,12 +199,20 @@ void displayStudent()
 	cout << "ID number of Student you would like to display: " << endl;
 	cin >> id;
 
-	foundStudent = students->find(id);
-	if(foundStudent != NULL)
-		foundStudent->value->printStudent();
-	else 
-		cout << "Student " << id << " does not exist in Databse." << endl;
-
+	if (isdigit(id))
+	{
+		foundStudent = students->find(id);
+		if(foundStudent != NULL)
+			foundStudent->value->printStudent();
+		else 
+			cout << "Student " << id << " does not exist in Databse." << endl;
+	}
+	else
+	{
+		cout << "Not Valid Student ID." << endl; 
+	}
+	
+	
 }
 void displayFaculty()
 {
@@ -335,8 +351,8 @@ void addStudent()
 
 	//make a new student
 	int advisor;
-	string name, level, major;
-	float gpa; 
+	string name, level, major, g;
+	double gpa; 
 	advisor = assignStudAdvisor();
 	if(advisor != -1)
 	{
@@ -349,14 +365,18 @@ void addStudent()
 		getline(cin, major, '\n');
 		cin >> major;
 		cout << "GPA: " << endl;
+		
 		cin >> gpa;
+		//cin >> g;
+		//gpa = atof(g.c_str());
 
-		int id = startingStudentId++;
+		int id = startingStudentId;
 		TreeNode<Student> *exists = students->find(id);
 		while(exists != NULL)
 		{
+			
 			id = startingStudentId++;
-			TreeNode<Student> *exists = students->find(id);
+			exists = students->find(id);
 		}
 
 	
@@ -512,7 +532,15 @@ void addFaculty()
 	cout << "Department: " << endl;
 	getline(cin, department, '\n');
 
-	Faculty *newTeach = new Faculty(startingFacultyId++, name, level, department);
+	int id = startingFacultyId;
+	TreeNode<Faculty> *exists = faculty->find(id);
+	while(exists != NULL)		
+	{
+		id = startingFacultyId++;
+		exists = faculty->find(id);
+	}
+
+	Faculty *newTeach = new Faculty(id, name, level, department);
 
 	//add them to the bst
 	faculty->insert(newTeach);
@@ -628,22 +656,28 @@ void rollbackFaculty()
 	//get the last saved bst from stack
 	if(!facStack.empty())
 	{
-		faculty = &facStack.top();
-		facStack.pop();
+		// cout << faculty << endl;
+		// faculty = &facStack.top();
+		// cout << faculty << endl;
+		// facStack.pop();
+		//faculty = &facStack.pop_back();
 	}
-	else
-		cout << "No previous versions." << endl;
+	else if (facStack.empty())
+		cout << "No previous Facutly versions." << endl;
 }
 void rollbackStudent()
 {
 	//get the last saved bst from stack
 	if(!studStack.empty())
 	{
-		students = &studStack.top();
-		studStack.pop();
+		// StudentBST *st = new StudentBST();
+		// st = &studStack.top();
+		// studStack.pop();
+
+		students = &studStack[studStack.size() - 2];
 	}
 	else
-		cout << "No previous versions." << endl;
+		cout << "No previous Student versions." << endl;
 }
 void writeToFiles()
 {
@@ -660,6 +694,7 @@ void writeToFiles()
 void exitProgram()
 {
 	writeToFiles();	
+	cout << "All changes saved to files." << endl;
 	cout << "Exiting program now." << endl;
 	exit(0);
 }
@@ -667,13 +702,13 @@ void addStudStack()
 {
 	//add a bst to the stack of studentBST
 	StudentBST lastStudBST = *students;
-	studStack.push(lastStudBST);
+	studStack.push_back(lastStudBST);
 }
 void addFacStack()
 {
 	//ad a bst to the stack of facultyBST
 	FacultyBST lastFacBST = *faculty;
-	facStack.push(lastFacBST);
+	facStack.push_back(lastFacBST);
 }
 void checkFiles()
 {
@@ -688,35 +723,40 @@ void checkFiles()
 	{
 		while(!readFaculty.eof())
 		{
-			string name;
-			getline(readFaculty, name);
+			getline(readFaculty, line);
+			int id = atoi(line.c_str());
 
-			if(name.empty())
+			if(id ==0 || id > 1000)
 			{
 				continue;
 			}
 
-			getline(readFaculty, line);
-			int id = atoi(line.c_str());
+			string name;
+			getline(readFaculty, name);
+
 
 			string level;
 			getline(readFaculty, level);
 
 			string department;
-			getline(readFaculty, department);
+			getline(readFaculty, department, '\n');
 
 			Faculty *newFaculty = new Faculty(id, name, level, department);
 			faculty->insert(newFaculty);
 
 			//getting list of advisees
+			if(readFaculty.eof())
+			{
+				continue;
+			}
 			getline(readFaculty, line);
-			int numAdvisees;
+			int numAdvisees = atoi(line.c_str());
 
 			for (int k=0; k<numAdvisees; ++k)
 			{
 				getline(readFaculty, line);
 				int stud = atoi(line.c_str());
-				//faculty->find(newFaculty->getId())->value->addStudent(stud);
+				faculty->find(newFaculty->getId())->value->addStudent(stud);
 			}
 
 			line = "";
@@ -728,16 +768,17 @@ void checkFiles()
 	{
 		while (!readStudent.eof())
 		{
-			string name;
-			getline(readStudent, name);
+			getline(readStudent, line);
+			int id = atoi(line.c_str()); 
 
-			if(name.empty())
+			if(id == 0)
 			{
 				continue;
 			}
 
-			getline(readStudent, line);
-			int id = atoi(line.c_str());
+
+			string name;
+			getline(readStudent, name);
 
 			string grade;
 			getline(readStudent, grade);
@@ -757,6 +798,7 @@ void checkFiles()
 			
 
 			line = "";
+			
 		}
 
 		readStudent.close();
